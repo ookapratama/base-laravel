@@ -42,4 +42,13 @@ abstract class BaseRepository implements BaseRepositoryInterface
   {
     return $this->find($id)->delete();
   }
+
+  public function paginated(array $request)
+  {
+    $perPage = $request['per_page'] ?? 5;
+    $field = $request['sort_field'] ?? 'id';
+    $sortOrder = $request['sort_order'] ?? 'desc';
+
+    return $this->model->orderBy($field, $sortOrder)->paginate($perPage);
+  }
 }
