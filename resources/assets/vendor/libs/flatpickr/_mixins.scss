@@ -1,0 +1,111 @@
+@import '../../scss/_bootstrap-extended/functions';
+
+@mixin flatpickr-theme($background, $color: null) {
+  $in-range-bg: rgba-to-hex(rgba($background, 0.12), $card-bg);
+  $color: if($color, $color, color-contrast($background));
+  $in-range-color: $background;
+
+  .flatpickr-day {
+    &.today,
+    &.today:hover {
+      color: $background !important;
+      border-color: rgba-to-hex(rgba($background, 0.16), $card-bg);
+      background-color: rgba-to-hex(rgba($background, 0.16), $card-bg) !important;
+    }
+
+    &.inRange,
+    &.nextMonthDay.inRange,
+    &.prevMonthDay.inRange,
+    &.today.inRange,
+    &.prevMonthDay.today.inRange,
+    &.nextMonthDay.today.inRange {
+      color: $background !important;
+      background: $in-range-bg !important;
+      border-color: $in-range-bg !important;
+    }
+
+    &.selected,
+    &.selected.inRange,
+    &.selected:focus,
+    &.selected:hover,
+    &.selected.nextMonthDay,
+    &.selected.prevMonthDay,
+    &.startRange,
+    &.startRange.inRange,
+    &.startRange:focus,
+    &.startRange:hover,
+    &.startRange.nextMonthDay,
+    &.startRange.prevMonthDay,
+    &.endRange,
+    &.endRange.inRange,
+    &.endRange:focus,
+    &.endRange:hover,
+    &.endRange.nextMonthDay,
+    &.endRange.prevMonthDay,
+    &.week.selected {
+      color: $color !important;
+      background: $background !important;
+      border-color: $background !important;
+    }
+  }
+}
+
+@mixin flatpickr-dark-theme($background, $color: null) {
+  $color: if($color, $color, color-contrast($background));
+  $in-range-bg: rgba-to-hex(rgba($background, 0.12), $card-bg);
+  $in-range-color: $background;
+
+  .flatpickr-calendar .numInputWrapper span {
+    &.arrowUp:after {
+      border-bottom-color: $color;
+    }
+
+    &.arrowDown:after {
+      border-top-color: $color;
+    }
+  }
+
+  .flatpickr-day {
+    &.today,
+    &.today:hover,
+    &.inRange {
+      color: $background !important;
+      border-color: rgba-to-hex(rgba($background, 0.16), $card-bg) !important;
+      background-color: rgba-to-hex(rgba($background, 0.16), $card-bg) !important;
+    }
+
+    &.nextMonthDay.inRange,
+    &.prevMonthDay.inRange,
+    &.today.inRange,
+    &.nextMonthDay.today.inRange,
+    &.prevMonthDay.today.inRange {
+      border-color: $in-range-bg !important;
+      background: $in-range-bg !important;
+      color: $background !important;
+    }
+
+    &.selected,
+    &.selected.inRange,
+    &.selected:focus,
+    &.selected:hover,
+    &.selected.prevMonthDay,
+    &.selected.nextMonthDay,
+    &.startRange,
+    &.startRange.inRange,
+    &.startRange:focus,
+    &.startRange:hover,
+    &.startRange.prevMonthDay,
+    &.startRange.nextMonthDay,
+    &.endRange,
+    &.endRange.inRange,
+    &.endRange:focus,
+    &.endRange:hover,
+    &.endRange.nextMonthDay,
+    &.endRange.prevMonthDay,
+    &.week.selected {
+      background: $background !important;
+      border-color: $background !important;
+      color: $color !important;
+    }
+  }
+}

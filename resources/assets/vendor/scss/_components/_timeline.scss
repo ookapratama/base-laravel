@@ -1,0 +1,356 @@
+// Timeline
+// *******************************************************************************
+
+@import '../../scss/_custom-variables/libs';
+
+.timeline {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  list-style: none;
+
+  .timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    > *:first-child {
+      margin-right: 0.5rem;
+    }
+    // d-flex justify-content-between flex-sm-row flex-column
+  }
+
+  // Timeline Item
+  .timeline-item {
+    position: relative;
+    padding-left: 1.4rem;
+
+    .timeline-event {
+      position: relative;
+      width: 100%;
+      min-height: $timeline-item-min-height;
+      background-color: $timeline-item-bg-color;
+      border-radius: $timeline-item-border-radius;
+      padding: $timeline-item-padding-y $timeline-item-padding-x $timeline-item-padding-y - 0.1625;
+
+      .timeline-event-time {
+        position: absolute;
+        top: 1.2rem;
+        font-size: $timeline-event-time-size;
+        color: $timeline-event-time-color;
+      }
+    }
+    // advance indicator
+    .timeline-indicator-advanced {
+      position: absolute;
+      left: -1.08rem;
+      top: 0;
+      z-index: 2;
+      height: 2rem;
+      width: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: $card-bg;
+      box-shadow: 0 0 0 10px $card-bg;
+    }
+
+    .timeline-indicator-advanced + .timeline-event {
+      position: relative;
+      width: 100%;
+      min-height: 4rem;
+      border-radius: 0.5rem;
+      padding: 0.4rem 1.5rem 1rem;
+    }
+
+    // Timeline indicator with icon when use fullscreen timeline
+    .timeline-indicator {
+      position: absolute;
+      left: -1rem;
+      top: 0.64rem;
+      z-index: 2;
+      height: $timeline-indicator-size;
+      width: $timeline-indicator-size;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: shift-color($timeline-point-color, $timeline-point-indicator-bg-scale, $body-bg);
+      box-shadow: 0 0 0 10px $body-bg;
+      // Icons
+      i {
+        color: $timeline-point-color;
+      }
+    }
+
+    // Timeline Point Indicator
+    .timeline-point {
+      position: absolute;
+      left: -0.38rem;
+      top: 0;
+      z-index: 2;
+      display: block;
+      height: $timeline-point-size;
+      width: $timeline-point-size;
+      border-radius: 50%;
+      background-color: $timeline-point-color;
+      box-shadow: 0 0 0 10px $card-bg;
+    }
+
+    // Transparent Timeline Item
+    &.timeline-item-transparent {
+      .timeline-event {
+        top: -0.9rem;
+        background-color: transparent;
+
+        @include ltr-style {
+          padding-left: 0;
+        }
+
+        &.timeline-event-shadow {
+          padding-left: 2rem;
+        }
+      }
+    }
+  }
+
+  // Timeline outline
+  &.timeline-outline {
+    .timeline-item {
+      .timeline-point {
+        outline: unset;
+        background-color: $card-bg !important;
+        border: 2px solid $primary;
+      }
+    }
+  }
+  // Timeline Center
+  &.timeline-center {
+    .timeline-item {
+      width: 50%;
+      clear: both;
+
+      &.timeline-item-left,
+      &:nth-of-type(odd):not(.timeline-item-left):not(.timeline-item-right) {
+        float: left;
+        padding-left: 0;
+        padding-right: 2.25rem;
+        padding-bottom: 2.5rem;
+        border-left: 0;
+        border-right: 1px solid $timeline-border-color;
+        .timeline-event {
+          .timeline-event-time {
+            right: -10.2rem;
+          }
+        }
+
+        .timeline-point {
+          left: 100%;
+        }
+      }
+
+      &.timeline-item-right,
+      &:nth-of-type(even):not(.timeline-item-left):not(.timeline-item-right) {
+        float: right;
+        right: 1px;
+        padding-left: 2.25rem;
+        padding-bottom: 2.5rem;
+        border-left: 1px solid $timeline-border-color;
+
+        .timeline-event-time {
+          left: -10.2rem;
+        }
+
+        .timeline-point {
+          left: 0;
+        }
+      }
+
+      .timeline-point {
+        left: 50%;
+        margin-left: -0.6875rem;
+      }
+      .timeline-point-indicator {
+        left: 50%;
+        margin-left: -0.3125rem;
+      }
+    }
+  }
+}
+
+// LTR only
+@include ltr-only {
+  .timeline:not(.timeline-center) {
+    padding-left: 0.5rem;
+  }
+  .timeline:not(.timeline-outline):not(.timeline-center) .timeline-item {
+    border-left: 1px solid $timeline-border-color;
+  }
+  .timeline-outline .timeline-item {
+    border-left: 1px dashed $timeline-border-color;
+  }
+}
+
+// RTL
+@include rtl-only {
+  .timeline:not(.timeline-center) {
+    padding-right: 0.5rem;
+    &:not(.timeline-outline) .timeline-item {
+      border-right: 1px solid $timeline-border-color;
+    }
+    &.timeline-outline .timeline-item {
+      border-right: 1px dashed $timeline-border-color;
+    }
+    .timeline-item {
+      padding-left: 0;
+      padding-right: 2rem;
+
+      &.timeline-item-transparent {
+        .timeline-event {
+          padding-right: 0;
+        }
+      }
+
+      .timeline-point {
+        right: -0.38rem;
+        left: auto;
+      }
+      .timeline-indicator {
+        right: -0.75rem;
+        left: auto;
+      }
+      .timeline-indicator-advanced {
+        right: -1rem;
+        left: auto;
+      }
+      .timeline-indicator-advanced + .timeline-event {
+        .timeline-header {
+          > *:first-child {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .timeline.timeline-center .timeline-item {
+    &.timeline-item-left,
+    &:nth-of-type(odd):not(.timeline-item-left):not(.timeline-item-right) {
+      .timeline-indicator {
+        left: calc(100% - calc(#{$timeline-indicator-size}/ 2));
+      }
+    }
+  }
+}
+// To Change Timeline Center's Alignment om small Screen
+@include media-breakpoint-down(md) {
+  .timeline {
+    &.timeline-center {
+      .timeline-item {
+        border-right: 0 !important;
+        left: 1rem;
+        &:not(:last-child) {
+          border-left: 1px solid $timeline-border-color !important;
+        }
+        float: left !important;
+        width: 100%;
+        padding-left: 3rem !important;
+        padding-right: 1.5rem !important;
+
+        .timeline-event {
+          .timeline-event-time {
+            top: -1.7rem;
+            left: 0 !important;
+            right: auto !important;
+          }
+        }
+
+        .timeline-point {
+          left: -0.7rem !important;
+          margin-left: 0 !important;
+        }
+        .timeline-point-indicator {
+          left: 0 !important;
+          margin-left: -0.3125rem !important;
+        }
+      }
+    }
+  }
+
+  // RTL: Timeline Center's Alignment om small Screen
+  @include rtl-only {
+    .timeline {
+      &.timeline-center {
+        .timeline-item {
+          border-left: 0 !important;
+          right: 1rem !important;
+          &:not(:last-child) {
+            border-right: 1px solid $timeline-border-color !important;
+          }
+        }
+
+        .timeline-item {
+          float: right !important;
+          width: 100%;
+          padding-right: 3.5rem !important;
+          padding-left: 1.5rem !important;
+
+          .timeline-event {
+            .timeline-event-time {
+              right: 0 !important;
+              left: auto !important;
+            }
+          }
+
+          .timeline-point {
+            right: -0.7rem !important;
+            margin-right: 0 !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .timeline .timeline-item .timeline-indicator {
+    @include rtl-style {
+      left: auto;
+      right: -0.6875rem;
+    }
+  }
+
+  @include rtl-only {
+    .timeline-center {
+      .timeline-item {
+        padding-left: 0;
+        padding-right: 3rem;
+      }
+    }
+  }
+}
+@include media-breakpoint-down(sm) {
+  .timeline {
+    .timeline-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}
+// For Contextual Colors
+@each $color, $value in $theme-colors {
+  @if $color !=primary and $color !=light {
+    @include template-timeline-point-variant(
+      '.timeline-point-#{$color}',
+      if($color== 'dark' and $dark-style, $light, $value)
+    );
+    @include template-timeline-indicator-variant(
+      '.timeline-indicator-#{$color}',
+      if($color== 'dark' and $dark-style, $light, $value)
+    );
+  }
+}

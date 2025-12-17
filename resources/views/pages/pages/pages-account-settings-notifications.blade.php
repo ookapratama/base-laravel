@@ -1,0 +1,141 @@
+@extends('layouts/layoutMaster')
+
+@section('title', 'Account settings - Pages')
+
+<!-- Vendor Styles -->
+@section('vendor-style')
+@vite(['resources/assets/vendor/libs/select2/select2.scss'])
+@endsection
+
+<!-- Vendor Scripts -->
+@section('vendor-script')
+@vite(['resources/assets/vendor/libs/select2/select2.js'])
+@endsection
+
+@section('content')
+<div class="row">
+  <div class="col-md-12">
+    <div class="nav-align-top">
+      <ul class="nav nav-pills flex-column flex-md-row mb-6 gap-2 gap-lg-0">
+        <li class="nav-item"><a class="nav-link" href="{{url('pages/account-settings-account')}}"><i class="ri-group-line me-2"></i> Account</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{url('pages/account-settings-security')}}"><i class="ri-lock-line me-2"></i> Security</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{url('pages/account-settings-billing')}}"><i class="ri-bookmark-line me-2"></i> Billing & Plans</a></li>
+        <li class="nav-item"><a class="nav-link active" href="javascript:void(0);"><i class="ri-notification-4-line me-2"></i> Notifications</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{url('pages/account-settings-connections')}}"><i class="ri-link-m me-2"></i> Connections</a></li>
+      </ul>
+    </div>
+    <div class="card">
+      <!-- Notifications -->
+      <div class="card-body">
+        <h5 class="mb-0">Recent Devices</h5>
+        <span class="card-subtitle">We need permission from your browser to show notifications. <a href="javascript:void(0);" class="notificationRequest">Request Permission</a></span>
+        <div class="error"></div>
+      </div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="text-nowrap fw-medium">Type</th>
+              <th class="text-nowrap fw-medium text-center">Email</th>
+              <th class="text-nowrap fw-medium text-center">Browser</th>
+              <th class="text-nowrap fw-medium text-center">App</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-nowrap text-heading">New for you</td>
+              <td>
+                <div class="form-check mb-0 d-flex justify-content-center mb-0">
+                  <input class="form-check-input" type="checkbox" id="defaultCheck1" checked />
+                </div>
+              </td>
+              <td>
+                <div class="form-check mb-0 d-flex justify-content-center mb-0">
+                  <input class="form-check-input" type="checkbox" id="defaultCheck2" checked />
+                </div>
+              </td>
+              <td>
+                <div class="form-check mb-0 d-flex justify-content-center mb-0">
+                  <input class="form-check-input" type="checkbox" id="defaultCheck3" checked />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-nowrap text-heading">Account activity</td>
+              <td>
+                <div class="form-check mb-0 d-flex justify-content-center mb-0">
+                  <input class="form-check-input" type="checkbox" id="defaultCheck4" checked />
+                </div>
+              </td>
+              <td>
+                <div class="form-check mb-0 d-flex justify-content-center mb-0">
+                  <input class="form-check-input" type="checkbox" id="defaultCheck5" checked />
+                </div>
+              </td>
+              <td>
+                <div class="form-check mb-0 d-flex justify-content-center mb-0">
+                  <input class="form-check-input" type="checkbox" id="defaultCheck6" checked />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-nowrap text-heading">A new browser used to sign in</td>
+              <td>
+                <div class="form-check mb-0 d-flex justify-content-center mb-0">
+                  <input class="form-check-input" type="checkbox" id="defaultCheck7" checked />
+                </div>
+              </td>
+              <td>
+                <div class="form-check mb-0 d-flex justify-content-center mb-0">
+                  <input class="form-check-input" type="checkbox" id="defaultCheck8" checked />
+                </div>
+              </td>
+              <td>
+                <div class="form-check mb-0 d-flex justify-content-center mb-0">
+                  <input class="form-check-input" type="checkbox" id="defaultCheck9" />
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-nowrap text-heading">A new device is linked</td>
+              <td>
+                <div class="form-check mb-0 d-flex justify-content-center mb-0">
+                  <input class="form-check-input" type="checkbox" id="defaultCheck10" checked />
+                </div>
+              </td>
+              <td>
+                <div class="form-check mb-0 d-flex justify-content-center mb-0">
+                  <input class="form-check-input" type="checkbox" id="defaultCheck11" />
+                </div>
+              </td>
+              <td>
+                <div class="form-check mb-0 d-flex justify-content-center mb-0">
+                  <input class="form-check-input" type="checkbox" id="defaultCheck12" />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-body">
+        <p class="mb-6 fw-medium">When should we send you notifications?</p>
+        <form action="javascript:void(0);">
+          <div class="row">
+            <div class="col-sm-6">
+              <select id="sendNotification" class="form-select" name="sendNotification">
+                <option selected>Only when I'm online</option>
+                <option>Anytime</option>
+              </select>
+            </div>
+            <div class="mt-6">
+              <button type="submit" class="btn btn-primary me-3">Save changes</button>
+              <button type="reset" class="btn btn-outline-secondary">Reset</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- /Notifications -->
+    </div>
+  </div>
+</div>
+@endsection

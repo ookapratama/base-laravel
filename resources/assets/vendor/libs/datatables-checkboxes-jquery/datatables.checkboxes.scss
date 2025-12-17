@@ -1,0 +1,14 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@use '../../scss/_components/include' as comp;
+
+@import '../../scss/_custom-variables/libs';
+@import 'jquery-datatables-checkboxes/css/dataTables.checkboxes';
+
+table.dataTable .dt-checkboxes-select-all .form-check-input {
+  &,
+  &:after {
+    height: 1.125rem;
+    width: 1.125rem;
+  }
+}

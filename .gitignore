@@ -22,3 +22,8 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+!/public/assets
+!/public/assets/*
+/public/css
+/public/js

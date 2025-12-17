@@ -1,0 +1,760 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import 'bs-stepper/dist/css/bs-stepper';
+@import '../../scss/_custom-variables/libs';
+
+$bs-stepper-header-padding-y: light.$card-cap-padding-y !default;
+$bs-stepper-header-padding-x: light.$card-cap-padding-x !default;
+$bs-stepper-content-padding-x: light.$card-spacer-x !default;
+$bs-stepper-content-padding-y: light.$card-spacer-y !default;
+$bs-stepper-trigger-padding-y: 0 !default;
+$bs-stepper-trigger-padding-x: 0.5rem !default;
+$bs-stepper-trigger-padding-vertical: 0.5rem !default;
+$bs-stepper-icon-border-size: 3px !default;
+$bs-stepper-svg-icon-height: 3.75rem !default;
+$bs-stepper-svg-icon-width: 3.75rem !default;
+$bs-stepper-icon-font-size: 1.6rem !default;
+$bs-stepper-vertical-separator-height: 2.5rem !default;
+$bs-stepper-vertical-header-min-width: 18rem !default;
+$bs-stepper-icon-bg-scale: 88%;
+$bs-stepper-check-icon-size: 0.875rem;
+
+// Default Styles
+.bs-stepper {
+  border-radius: light.$border-radius-lg;
+  .step-trigger {
+    font-size: light.$font-size-base;
+  }
+  .line {
+    flex: 0;
+    min-width: auto;
+    min-height: auto;
+    background-color: transparent;
+    margin: 0;
+    i {
+      &::before {
+        font-size: 1.25rem;
+      }
+    }
+  }
+
+  .bs-stepper-header {
+    padding: $bs-stepper-header-padding-y $bs-stepper-header-padding-x;
+    .step {
+      .step-trigger {
+        padding: $bs-stepper-trigger-padding-y $bs-stepper-trigger-padding-x;
+        flex-wrap: nowrap;
+        font-weight: light.$font-weight-medium;
+        line-height: light.$line-height-base;
+        &:focus {
+          color: inherit;
+        }
+        &:disabled {
+          opacity: 1;
+        }
+        .bs-stepper-label {
+          margin: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          text-align: start;
+          display: inline-flex;
+          align-items: center;
+          .bs-stepper-number {
+            font-weight: light.$font-weight-medium;
+            font-size: 1.5rem;
+          }
+          .bs-stepper-title {
+            font-weight: light.$font-weight-medium;
+            font-size: light.$font-size-base;
+          }
+          .bs-stepper-subtitle {
+            font-size: light.$font-size-sm;
+            font-weight: light.$font-weight-normal;
+          }
+          @include app-ltr {
+            margin-left: 0.5rem;
+          }
+          @include app-rtl {
+            margin-right: 0.5rem;
+          }
+        }
+
+        &:hover {
+          background-color: transparent;
+        }
+      }
+      @include light.media-breakpoint-down(lg) {
+        &:first-child {
+          .step-trigger {
+            @include app-ltr {
+              padding-left: 0;
+            }
+            @include app-rtl {
+              padding-right: 0;
+            }
+          }
+        }
+      }
+      .bs-stepper-circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 1.25rem;
+        width: 1.25rem;
+        padding: unset;
+        i {
+          visibility: hidden;
+          font-size: $bs-stepper-check-icon-size;
+        }
+      }
+    }
+  }
+  &.wizard-icons {
+    .bs-stepper-header {
+      .step {
+        .step-trigger {
+          padding: $bs-stepper-header-padding-y;
+          @include light.media-breakpoint-down(lg) {
+            padding-top: 0;
+            @include app-ltr {
+              padding-left: 0;
+            }
+            @include app-rtl {
+              padding-right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+  &:not(.wizard-icons) {
+    .bs-stepper-header {
+      .line {
+        border-width: 0;
+        border-top-width: 3.9px;
+        border-style: solid;
+        border-radius: $bs-stepper-icon-border-size;
+        width: 100%;
+        flex-basis: auto;
+      }
+    }
+    &:not(.wizard-vertical-icons) {
+      &.vertical {
+        .bs-stepper-header {
+          .step {
+            &:not(:last-child) {
+              margin-bottom: 0.5rem;
+            }
+            &:not(:first-child) {
+              margin-top: 0.5rem;
+            }
+          }
+          @include dark.media-breakpoint-up(lg) {
+            .step {
+              .step-trigger {
+                padding: 0;
+              }
+            }
+          }
+          .line {
+            &::before {
+              top: -1.2rem;
+            }
+          }
+        }
+      }
+    }
+  }
+  .bs-stepper-content {
+    padding: $bs-stepper-content-padding-y $bs-stepper-content-padding-x;
+    border-radius: light.$border-radius-lg;
+  }
+
+  &.vertical {
+    .bs-stepper-header {
+      min-width: $bs-stepper-vertical-header-min-width;
+      .step {
+        &:not(:last-child) {
+          margin-bottom: 0.5rem;
+        }
+        &:not(:first-child) {
+          margin-top: 0.5rem;
+        }
+        .step-trigger {
+          padding: $bs-stepper-trigger-padding-vertical 0;
+        }
+        &:first-child {
+          .step-trigger {
+            padding-top: 0;
+          }
+        }
+        &:last-child {
+          .step-trigger {
+            padding-bottom: 0;
+          }
+        }
+      }
+      .line {
+        position: relative;
+        min-height: 1px;
+        border: none;
+        &:before {
+          position: absolute;
+          top: -0.75rem;
+          left: 0.8rem;
+          display: block;
+          height: $bs-stepper-vertical-separator-height;
+          width: $bs-stepper-icon-border-size;
+          border-radius: $bs-stepper-icon-border-size;
+          content: '';
+        }
+      }
+    }
+    .bs-stepper-content {
+      width: 100%;
+      .content {
+        &:not(.active) {
+          display: none;
+        }
+      }
+    }
+
+    &.wizard-icons {
+      .step {
+        text-align: center;
+        padding: 0.75rem 0;
+      }
+      .bs-stepper-header {
+        .line:before {
+          top: -0.7rem;
+          left: 50%;
+          margin-left: -0.06rem;
+        }
+      }
+    }
+  }
+
+  &.wizard-icons {
+    .bs-stepper-header {
+      justify-content: space-around;
+      .step-trigger {
+        flex-direction: column;
+        .bs-stepper-icon {
+          svg {
+            height: $bs-stepper-svg-icon-height;
+            width: $bs-stepper-svg-icon-width;
+            margin-bottom: 0.5rem;
+          }
+          i {
+            font-size: $bs-stepper-icon-font-size;
+          }
+        }
+      }
+    }
+  }
+
+  // Remove borders from wizard modern
+  &.wizard-modern {
+    .bs-stepper-header {
+      border-bottom: none !important;
+    }
+    &.vertical {
+      .bs-stepper-header {
+        border-right: none !important;
+      }
+    }
+  }
+}
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    .bs-stepper {
+      .line {
+        i {
+          color: light.$text-muted;
+        }
+      }
+      background-color: light.$card-bg;
+      .bs-stepper-header {
+        border-bottom: 1px solid light.$border-color;
+        .bs-stepper-title {
+          color: light.$headings-color;
+        }
+        .bs-stepper-label {
+          .bs-stepper-title {
+            color: light.$headings-color;
+          }
+          .bs-stepper-subtitle {
+            color: light.$text-muted;
+          }
+        }
+
+        .step {
+          &:not(.active) {
+            .bs-stepper-circle {
+              background-color: transparent;
+              color: light.$gray-400;
+            }
+          }
+          &.crossed,
+          &.active {
+            .bs-stepper-label {
+              .bs-stepper-number {
+                color: light.$headings-color !important;
+              }
+              .bs-stepper-subtitle {
+                color: light.$body-color !important;
+              }
+            }
+          }
+          .step-trigger {
+            .bs-stepper-label .bs-stepper-number {
+              color: light.$text-muted;
+            }
+            &:disabled {
+              .bs-stepper-label {
+                .bs-stepper-number {
+                  color: light.$text-muted;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.vertical {
+        .bs-stepper-header {
+          border-bottom: none;
+          @include light.media-breakpoint-down(lg) {
+            border-right: none !important;
+            border-left: none !important;
+            border-bottom: 1px solid light.$border-color;
+          }
+        }
+      }
+
+      &.wizard-modern {
+        background-color: transparent;
+        .bs-stepper-content {
+          background-color: light.$card-bg;
+          box-shadow: light.$card-box-shadow;
+        }
+      }
+
+      &:not(.wizard-modern) {
+        box-shadow: light.$card-box-shadow;
+      }
+
+      &.wizard-icons {
+        .bs-stepper-header {
+          .bs-stepper-icon {
+            svg {
+              fill: light.$headings-color;
+            }
+          }
+          .bs-stepper-label {
+            color: light.$body-color;
+          }
+        }
+      }
+    }
+  }
+
+  // ! FIX: Vertical border issue in rtl and ltr
+  @include app-rtl(false) {
+    .light-style {
+      .bs-stepper {
+        &.vertical {
+          .bs-stepper-header {
+            border-left: 1px solid light.$border-color;
+          }
+        }
+      }
+    }
+  }
+  @include app-ltr(false) {
+    .light-style {
+      .bs-stepper {
+        &.vertical {
+          .bs-stepper-header {
+            border-right: 1px solid light.$border-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Dark Style
+@if $enable-dark-style {
+  .dark-style {
+    .bs-stepper {
+      .line {
+        i {
+          color: dark.$text-muted;
+        }
+      }
+      background-color: dark.$card-bg;
+
+      .bs-stepper-header {
+        border-bottom: 1px solid dark.$border-color;
+        .bs-stepper-title {
+          color: dark.$headings-color;
+        }
+        .bs-stepper-label {
+          .bs-stepper-title {
+            color: dark.$headings-color;
+          }
+          .bs-stepper-subtitle {
+            color: dark.$text-muted !important;
+          }
+        }
+        .line {
+          color: dark.$body-color;
+        }
+
+        .step {
+          &:not(.active) {
+            .bs-stepper-circle {
+              background-color: transparent;
+              color: dark.$body-color;
+            }
+          }
+          &.crossed,
+          &.active {
+            .bs-stepper-label {
+              .bs-stepper-number {
+                color: dark.$headings-color !important;
+              }
+              .bs-stepper-subtitle {
+                color: dark.$body-color;
+              }
+            }
+          }
+          .step-trigger {
+            .bs-stepper-label .bs-stepper-number {
+              color: dark.$text-muted;
+            }
+            &:disabled {
+              .bs-stepper-label {
+                .bs-stepper-number {
+                  color: dark.$text-muted;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.vertical {
+        .bs-stepper-header {
+          border-bottom: none;
+          @include light.media-breakpoint-down(lg) {
+            border-right: none !important;
+            border-left: none !important;
+            border-bottom: 1px solid dark.$border-color;
+          }
+        }
+      }
+
+      &.wizard-modern {
+        background-color: transparent;
+        .bs-stepper-content {
+          background-color: dark.$card-bg;
+          box-shadow: dark.$card-box-shadow;
+        }
+      }
+
+      &:not(.wizard-modern) {
+        box-shadow: dark.$card-box-shadow;
+      }
+
+      &.wizard-icons {
+        .bs-stepper-header {
+          .bs-stepper-icon {
+            i {
+              color: dark.$body-color;
+            }
+
+            svg {
+              fill: dark.$headings-color;
+            }
+          }
+          .bs-stepper-label {
+            color: dark.$body-color;
+          }
+        }
+      }
+    }
+  }
+
+  // ! FIX: Vertical border issue in rtl and ltr
+  @include app-rtl(false) {
+    .dark-style {
+      .bs-stepper {
+        &.vertical {
+          .bs-stepper-header {
+            border-left: 1px solid dark.$border-color;
+          }
+        }
+      }
+    }
+  }
+  @include app-ltr(false) {
+    .dark-style {
+      .bs-stepper {
+        &.vertical {
+          .bs-stepper-header {
+            border-right: 1px solid dark.$border-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+// RTL
+@include app-rtl(false) {
+  .bs-stepper {
+    .bs-stepper-content {
+      .btn-next,
+      .btn-prev {
+        &:not(.btn-submit) {
+          i:before {
+            transform: scaleX(-1) !important;
+          }
+        }
+      }
+    }
+
+    &.vertical {
+      .bs-stepper-header {
+        .line:before {
+          left: auto;
+          right: 0.8rem;
+        }
+      }
+
+      &.wizard-icons {
+        .bs-stepper-header {
+          .line:before {
+            right: 50%;
+          }
+        }
+      }
+    }
+
+    // Remove borders from wizard modern
+    &.wizard-modern {
+      &.vertical {
+        .bs-stepper-header {
+          border-left: none !important;
+        }
+      }
+    }
+
+    @include light.media-breakpoint-up(lg) {
+      .bs-stepper-header {
+        .line {
+          i:before {
+            transform: scaleX(-1) !important;
+          }
+        }
+      }
+    }
+
+    @include light.media-breakpoint-down(lg) {
+      .bs-stepper-header {
+        .step {
+          .step-trigger {
+            .bs-stepper-label {
+              margin-left: 0;
+              margin-right: 0.35rem;
+            }
+          }
+        }
+        .line {
+          &:before {
+            left: 0;
+            right: 0.8rem;
+          }
+        }
+      }
+      &.wizard-icons {
+        .bs-stepper-header {
+          .line {
+            &:before {
+              margin-right: 0.75rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Media Queries
+@include light.media-breakpoint-down(lg) {
+  .bs-stepper {
+    .bs-stepper-header {
+      flex-direction: column;
+      align-items: flex-start;
+      .step {
+        .step-trigger {
+          padding: $bs-stepper-trigger-padding-vertical 0;
+          flex-direction: row;
+          .bs-stepper-label {
+            margin-left: 0.35rem;
+          }
+        }
+        &:first-child {
+          .step-trigger {
+            padding-top: 0;
+          }
+        }
+        &:last-child {
+          .step-trigger {
+            padding-bottom: 0;
+          }
+        }
+        &:not(:first-child) .step-trigger {
+          margin-top: 1rem;
+        }
+      }
+    }
+    &.vertical {
+      flex-direction: column;
+      .bs-stepper-header {
+        align-items: flex-start;
+      }
+
+      &.wizard-icons {
+        .bs-stepper-header {
+          .line:before {
+            left: 0.75rem;
+            margin-left: 0;
+          }
+        }
+      }
+    }
+    &:not(.vertical) {
+      .bs-stepper-header {
+        .line {
+          i {
+            display: none;
+          }
+        }
+      }
+      &:not(.wizard-icons) {
+        .bs-stepper-header {
+          .line {
+            position: relative;
+            min-height: 1px;
+            border: none;
+            &:before {
+              position: absolute;
+              top: -0.75rem;
+              left: 0.8rem;
+              display: block;
+              height: $bs-stepper-vertical-separator-height;
+              width: $bs-stepper-icon-border-size;
+              border-radius: $bs-stepper-icon-border-size;
+              content: '';
+            }
+          }
+        }
+      }
+    }
+    &.wizard-icons {
+      .bs-stepper-header {
+        .bs-stepper-icon {
+          svg {
+            margin-top: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .bs-stepper-header {
+    margin: 0;
+  }
+}
+
+// Styles for Create App Modal Wizard
+.wizard-vertical-icons {
+  &.vertical {
+    .bs-stepper-header {
+      min-width: $bs-stepper-vertical-header-min-width - 3;
+      .step {
+        .step-trigger {
+          padding-top: 0.35rem;
+          padding-bottom: 0.35rem;
+        }
+      }
+    }
+  }
+}
+
+@if $enable-light-style {
+  .light-style {
+    .wizard-vertical-icons {
+      &.vertical {
+        .bs-stepper-header {
+          .step {
+            .avatar-initial {
+              background-color: light.rgba-to-hex(light.$gray-100, light.$rgba-to-hex-bg);
+              color: light.$headings-color;
+            }
+            &.crossed {
+              .avatar-initial {
+                background-color: light.rgba-to-hex(rgba(light.$primary, 0.16), light.$rgba-to-hex-bg);
+                color: light.$primary;
+              }
+            }
+            &.active {
+              .avatar-initial {
+                background-color: light.$primary;
+                color: light.$white;
+                box-shadow: light.$box-shadow-xs;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@if $enable-dark-style {
+  .dark-style {
+    .wizard-vertical-icons {
+      &.vertical {
+        .bs-stepper-header {
+          .step {
+            .avatar-initial {
+              background-color: dark.rgba-to-hex(dark.$gray-100, dark.$rgba-to-hex-bg);
+              color: dark.$headings-color;
+            }
+            &.crossed {
+              .avatar-initial {
+                background-color: dark.rgba-to-hex(rgba(dark.$primary, 0.16), dark.$rgba-to-hex-bg);
+                color: dark.$primary;
+              }
+            }
+            &.active {
+              .avatar-initial {
+                background-color: dark.$primary;
+                color: dark.$white;
+                box-shadow: dark.$box-shadow-xs;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

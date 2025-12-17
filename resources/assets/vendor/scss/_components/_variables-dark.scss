@@ -1,0 +1,34 @@
+// Dark Layout Variables
+
+// ! _variable-dark.scss file overrides _variable.scss file.
+
+// Navbar (custom navbar)
+// *******************************************************************************
+$navbar-search-shadow: 0 0.25rem 0.5rem -0.25rem rgba($shadow-bg, 0.42) !default;
+
+// Menu
+// *******************************************************************************
+$menu-horizontal-box-shadow: 0px 2px 6px 0px rgba($shadow-bg, 0.2) !default;
+$menu-sub-box-shadow: $box-shadow-lg !default;
+
+// Footer
+// *******************************************************************************
+$footer-fixed-box-shadow: 0 -0.25rem 0.5rem -0.25rem rgba($shadow-bg, 0.42) !default;
+
+// switch
+// *******************************************************************************
+$switch-off-color: rgba-to-hex($gray-600, $rgba-to-hex-bg) !default;
+$switch-off-bg: rgba-to-hex(rgba($base, 0.1), $rgba-to-hex-bg) !default;
+$switch-off-border: rgba-to-hex(rgba($base, 0.1), $rgba-to-hex-bg) !default;
+
+// Avatars
+// *******************************************************************************
+$avatar-bg: #383b55 !default; // (C)
+
+// Timeline
+// *******************************************************************************
+$timeline-event-time-color: $body-color !default;
+
+// Text Divider
+// *******************************************************************************
+$divider-color: $border-color !default;

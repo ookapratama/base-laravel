@@ -1,0 +1,306 @@
+@import './_components/include';
+@import './_theme/common';
+@import './_theme/libs';
+@import './_theme/pages';
+
+$primary-color: #666cff;
+$body-bg: $white;
+
+body {
+  background: $body-bg;
+}
+
+.bg-body {
+  background: $body-bg !important;
+}
+
+.dropdown-menu,
+.popover,
+.toast,
+.flatpickr-calendar,
+.datepicker.datepicker-inline,
+.datepicker.datepicker-inline table,
+.daterangepicker,
+.pcr-app,
+.ui-timepicker-wrapper,
+.twitter-typeahead .tt-menu,
+.tagify__dropdown,
+.swal2-modal.swal2-popup,
+.select2-dropdown,
+.menu-horizontal .menu-inner > .menu-item.open .menu-sub,
+div.dataTables_wrapper .dt-button-collection {
+  outline: none;
+  box-shadow: none !important;
+  border: 1px solid $input-border-color !important;
+}
+// Bootstrap select > double border fix
+.dropdown-menu .dropdown-menu,
+.app-calendar-sidebar .flatpickr-calendar {
+  border: none !important;
+}
+.datepicker.datepicker-inline {
+  width: fit-content;
+  border-radius: $border-radius;
+}
+.apexcharts-canvas .apexcharts-tooltip,
+.modal-content,
+.offcanvas,
+.shepherd-element,
+div.dataTables_wrapper .dt-button-collection > div[role='menu'],
+.dz-preview {
+  box-shadow: none !important;
+}
+.dz-preview {
+  border-width: 1px !important;
+}
+.modal-content,
+.offcanvas {
+  border: 1px solid $border-color !important;
+}
+.select2-dropdown {
+  border-color: $input-border-color !important;
+}
+.bs-popover-start > .popover-arrow::before,
+.bs-popover-auto[data-popper-placement^='left'] > .popover-arrow::before {
+  border-left-color: $input-border-color !important;
+  right: -1px;
+}
+.bs-popover-end > .popover-arrow::before,
+.bs-popover-auto[data-popper-placement^='right'] > .popover-arrow::before {
+  border-right-color: $input-border-color !important;
+  left: -1px;
+}
+.bs-popover-top > .popover-arrow::before,
+.bs-popover-auto[data-popper-placement^='top'] > .popover-arrow::before {
+  border-top-color: $input-border-color !important;
+  bottom: -1px;
+}
+.bs-popover-bottom > .popover-arrow::before,
+.bs-popover-auto[data-popper-placement^='bottom'] > .popover-arrow::before {
+  border-bottom-color: $input-border-color !important;
+  top: -1px;
+}
+
+@include template-common-theme($primary-color);
+@include template-libs-theme($primary-color);
+@include template-pages-theme($primary-color);
+
+// Navbar
+// ---------------------------------------------------------------------------
+
+@include template-navbar-style('.bg-navbar-theme', $body-bg, $color: $headings-color, $active-color: $headings-color);
+
+.layout-navbar-fixed .window-scrolled .layout-navbar {
+  box-shadow: none !important;
+  border: 1px solid $border-color;
+  border-top-width: 0;
+}
+.layout-horizontal .layout-navbar {
+  box-shadow: 0 1px 0 $border-color;
+}
+.layout-navbar-fixed .layout-page:not(.window-scrolled) .layout-navbar.navbar-detached,
+.layout-navbar-fixed .layout-page:not(.window-scrolled) .layout-navbar.navbar-detached .search-input {
+  background: $body-bg;
+}
+
+// Menu
+// ---------------------------------------------------------------------------
+
+@include template-menu-style(
+  '.bg-menu-theme',
+  $body-bg,
+  $color: $headings-color,
+  $active-color: $headings-color,
+  $active-bg: $primary-color
+);
+
+@include media-breakpoint-up($menu-collapsed-layout-breakpoint) {
+  .layout-menu {
+    box-shadow: 0 0 0 1px $border-color;
+  }
+}
+
+.layout-menu-horizontal {
+  box-shadow: 0 -1px 0 $border-color inset !important;
+}
+.bg-menu-theme {
+  &.menu-horizontal {
+    background-color: $card-bg !important;
+    .menu-inner .menu-item:not(.menu-item-closing) > .menu-sub {
+      background: $card-bg;
+    }
+  }
+}
+.timeline .timeline-item .timeline-event:after {
+  content: '';
+}
+
+// Footer
+// ---------------------------------------------------------------------------
+@include template-footer-style('.bg-footer-theme', $body-bg, $color: $primary-color, $active-color: $headings-color);
+
+.layout-footer-fixed .menu-vertical ~ .layout-page .content-footer .footer-container,
+.layout-footer-fixed .layout-horizontal .content-footer {
+  box-shadow: none !important;
+  border: 1px solid $border-color;
+  border-bottom-width: 0;
+}
+
+// Component styles
+// ---------------------------------------------------------------------------
+
+// card
+.card {
+  box-shadow: none;
+  border: $border-width solid $card-border-color;
+}
+
+// card border-shadow variant
+.card {
+  &[class*='card-border-shadow-'] {
+    &:hover {
+      box-shadow: none !important;
+    }
+  }
+}
+
+// Accordion
+.accordion-arrow-left {
+  .accordion-item {
+    &:not(:first-child),
+    &.active + .accordion-item {
+      .accordion-header {
+        border-top: none !important;
+      }
+    }
+    &.active {
+      box-shadow: none;
+      &:not(:first-child) {
+        margin-top: -1px;
+      }
+      &:not(:last-child) {
+        margin-bottom: -1px;
+      }
+    }
+  }
+}
+.accordion {
+  .accordion-item {
+    box-shadow: none !important;
+    border: $accordion-border-width solid $accordion-border-color;
+    margin-top: -1px;
+    &:not(.active):not(:first-child) .accordion-header {
+      border-top: none;
+    }
+  }
+}
+.accordion.accordion-custom-button .accordion-item:not(:first-child) {
+  margin-top: 0;
+}
+
+//Kanban-item
+.kanban-item {
+  box-shadow: none !important;
+  border: $border-width solid $card-border-color;
+}
+// default form wizard style
+.bs-stepper:not(.wizard-modern) {
+  border: 1px solid $border-color;
+  box-shadow: none !important;
+  .tab-content {
+    border: none !important;
+  }
+  .modal .modal-body & {
+    border-width: 0;
+  }
+}
+
+// modern form wizard style
+.bs-stepper.wizard-modern {
+  .bs-stepper-content {
+    box-shadow: none !important;
+    border: 1px solid $border-color;
+  }
+}
+
+// Card Statistics Swiper styles
+.swiper-container {
+  border: 1px solid $border-color;
+  box-shadow: none !important;
+}
+// Tabs
+.nav-pills {
+  ~ .tab-content {
+    border: 1px solid $border-color !important;
+    box-shadow: none;
+  }
+}
+
+.timeline-center {
+  .timeline-item {
+    &.timeline-item-left,
+    &:nth-of-type(odd):not(.timeline-item-left):not(.timeline-item-right) {
+      .timeline-event {
+        &:after {
+          border-right-color: $border-color !important;
+          border-left-color: $border-color !important;
+        }
+      }
+    }
+    &.timeline-item-right,
+    &:nth-of-type(even):not(.timeline-item-left):not(.timeline-item-right) {
+      .timeline-event {
+        &:after {
+          border-right-color: $border-color !important;
+          border-left-color: $border-color !important;
+        }
+      }
+    }
+  }
+}
+.timeline {
+  .timeline-item {
+    .timeline-indicator {
+      box-shadow: 0 0 0 10px $card-bg;
+    }
+  }
+}
+
+@include rtl-only {
+  .timeline {
+    .timeline-item {
+      .timeline-event {
+        &:before {
+          left: 32px;
+          right: 99.8%;
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .timeline.timeline-center .timeline-item {
+    &.timeline-item-left,
+    &:nth-of-type(odd):not(.timeline-item-left):not(.timeline-item-right) {
+      .timeline-event {
+        &:after {
+          right: -16px;
+        }
+      }
+    }
+  }
+}
+
+// authentication
+@include ltr-only {
+  .authentication-wrapper .authentication-bg {
+    border-left: 1px solid $border-color;
+  }
+}
+
+@include rtl-only {
+  .authentication-wrapper .authentication-bg {
+    border-right: 1px solid $border-color;
+  }
+}

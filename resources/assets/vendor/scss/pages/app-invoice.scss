@@ -1,0 +1,64 @@
+// * Invoice
+// *******************************************************************************
+@use '../_bootstrap-extended/include' as light;
+@use '../_bootstrap-extended/include-dark' as dark;
+@import '../_custom-variables/pages';
+
+// Invoice Edit & Add
+.invoice-edit,
+.invoice-add {
+  @include light.media-breakpoint-down(sm) {
+    .invoice-preview-card {
+      .invoice-calculations {
+        width: 100%;
+      }
+    }
+  }
+  @include light.media-breakpoint-up(md) {
+    .repeater-title {
+      position: absolute;
+      top: -2.4rem;
+    }
+  }
+  .invoice-preview-card {
+    .repeater-wrapper {
+      &:not(:last-child) {
+        margin-bottom: 1.5rem;
+      }
+    }
+  }
+  @media print {
+    hr {
+      margin-top: 1rem !important;
+      margin-bottom: 1rem !important;
+    }
+  }
+}
+
+.invoice-preview,
+.invoice-edit,
+.invoice-add {
+  & .invoice-preview-header {
+    background-color: light.$gray-100;
+  }
+}
+
+.invoice-preview .table thead tr th {
+  background-color: transparent !important;
+  border-color: light.$border-color;
+}
+
+@if $enable-dark-style {
+  .dark-style {
+    .invoice-preview,
+    .invoice-edit,
+    .invoice-add {
+      & .invoice-preview-header {
+        background-color: dark.$gray-100;
+      }
+    }
+    .invoice-preview .table thead tr th {
+      border-color: dark.$border-color;
+    }
+  }
+}

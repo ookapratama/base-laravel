@@ -1,0 +1,13 @@
+// * Wizard checkout
+// *******************************************************************************
+@use '../_bootstrap-extended/include' as light;
+@use '../_bootstrap-extended/include-dark' as dark;
+@import '../_custom-variables/pages';
+
+$checkout-wizard-header-width: 800px !default;
+
+#wizard-checkout {
+  .bs-stepper-header {
+    max-width: $checkout-wizard-header-width;
+  }
+}

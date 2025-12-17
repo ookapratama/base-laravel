@@ -1,0 +1,76 @@
+// * Cards Analytics
+// *******************************************************************************
+
+@use '../_bootstrap-extended/include' as light;
+@use '../_bootstrap-extended/include-dark' as dark;
+@import '../_custom-variables/pages';
+
+// Total Transaction Styles
+
+#totalTransactionChart {
+  .apexcharts-series[rel='2'] {
+    transform: translateX(5px);
+  }
+}
+
+// Weekly Sales styles
+#weeklySalesChart {
+  .apexcharts-series[rel='2'] {
+    transform: translateY(-8px);
+  }
+}
+
+// Project Timeline Rtl styles
+#projectTimelineChart {
+  .apexcharts-canvas {
+    .apexcharts-yaxis {
+      text {
+        @include app-rtl() {
+          text-anchor: end;
+        }
+      }
+    }
+  }
+}
+
+// Sales Country Rtl styles
+#salesCountryChart {
+  .apexcharts-data-labels {
+    text {
+      @include app-rtl() {
+        text-anchor: end;
+      }
+    }
+  }
+}
+
+// Shipment statistics chart legend
+#shipmentStatisticsChart {
+  .apexcharts-legend-series {
+    padding: 5px 15px;
+    border-radius: light.$border-radius-lg;
+    height: 83%;
+  }
+}
+
+//Light style
+@if $enable-light-style {
+  .light-style {
+    #shipmentStatisticsChart {
+      .apexcharts-legend-series {
+        border: 1px solid light.$border-color;
+      }
+    }
+  }
+}
+
+//Dark style
+@if $enable-dark-style {
+  .dark-style {
+    #shipmentStatisticsChart {
+      .apexcharts-legend-series {
+        border: 1px solid dark.$border-color;
+      }
+    }
+  }
+}

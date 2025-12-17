@@ -1,0 +1,297 @@
+// * Landing
+// *******************************************************************************
+
+@use '../_bootstrap-extended/include' as light;
+@use '../_bootstrap-extended/include-dark' as dark;
+@import '../_custom-variables/pages';
+
+.section-py {
+  padding: 6.25rem 0;
+  @include light.media-breakpoint-down(xl) {
+    padding: 5rem 0;
+  }
+  @include light.media-breakpoint-down(md) {
+    padding: 3rem 0;
+  }
+}
+
+// Hero
+.landing-hero {
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: cover;
+  padding-top: 7.95rem;
+  @include light.media-breakpoint-up(lg) {
+    .hero-text-box {
+      max-width: 550px;
+      margin: 0 auto;
+    }
+  }
+  .hero-title {
+    font-weight: 800;
+  }
+  .hero-animation-img {
+    margin-bottom: -16rem;
+    @include light.media-breakpoint-down(lg) {
+      margin-bottom: -10rem;
+    }
+    @include light.media-breakpoint-down(sm) {
+      margin-bottom: -4rem;
+    }
+    .hero-dashboard-img {
+      img {
+        width: 85%;
+        margin: 0 auto;
+      }
+    }
+    .hero-elements-img {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      img {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// Useful features
+.landing-features {
+  padding-top: 16rem;
+  @include light.media-breakpoint-down(lg) {
+    padding-top: 10rem;
+  }
+  @include light.media-breakpoint-down(sm) {
+    padding-top: 4rem;
+  }
+  .features-icon-wrapper {
+    .features-icon-box {
+      .features-icon {
+        height: 5.125rem;
+        width: 5.125rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+        border-width: 2px;
+        border-style: solid;
+        border-radius: light.$border-radius-pill;
+        transition: all 0.3s ease-in-out;
+      }
+      .features-icon-description {
+        max-width: 310px;
+        margin: 0 auto;
+      }
+    }
+  }
+}
+
+// Real customers reviews
+.landing-reviews {
+  .swiper-reviews-carousel {
+    .swiper {
+      padding-bottom: 2.75rem;
+      overflow: visible !important;
+      @include light.media-breakpoint-down(lg) {
+        padding-bottom: 2.5rem;
+      }
+      @include light.media-breakpoint-down(md) {
+        padding: 0 1rem 2rem;
+      }
+    }
+    .swiper-slide {
+      height: auto;
+      padding: 1rem 0;
+      opacity: 0.5;
+      transition: all 0.3s ease-in-out;
+      &.swiper-slide-active {
+        opacity: 1;
+        padding: 0;
+      }
+    }
+    .swiper-pagination {
+      bottom: 0;
+      .swiper-pagination-bullet {
+        width: 0.625rem;
+        height: 0.625rem;
+        opacity: 1;
+      }
+    }
+    .client-logo {
+      height: 1.75rem;
+      object-fit: contain;
+    }
+  }
+  .swiper-logo-carousel {
+    .swiper {
+      max-width: 60rem;
+      .swiper-slide {
+        display: flex;
+        justify-content: center;
+      }
+      .client-logo {
+        height: 1.75rem;
+        max-width: 95%;
+        object-fit: contain;
+      }
+    }
+  }
+}
+
+// our great team
+.landing-team {
+  .team-image-box {
+    height: 11.5625rem;
+    @include light.border-top-radius(var(--#{light.$prefix}card-border-radius));
+    .card-img-position {
+      height: 15rem;
+      transform: translateX(-50%);
+      @include light.media-breakpoint-down(lg) {
+        height: 13rem;
+      }
+    }
+    @include light.media-breakpoint-down(sm) {
+      height: 11rem;
+    }
+  }
+  .card {
+    .team-media-icons {
+      i {
+        transition: light.$card-transition;
+      }
+    }
+  }
+}
+
+// Pricing plans
+.landing-pricing {
+  #slider-pricing {
+    @include light.media-breakpoint-up(lg) {
+      width: 75%;
+      margin: 0 auto;
+    }
+  }
+}
+
+// Fun facts
+.landing-fun-facts {
+  .fun-facts-icon {
+    width: 5.125rem;
+    height: 5.125rem;
+    transition: all 0.3s ease-in-out;
+  }
+  .fun-facts-text {
+    font-size: 2.125rem;
+  }
+}
+
+// FAQs
+.landing-faq {
+  .faq-image {
+    max-width: 320px;
+    width: 80%;
+  }
+}
+
+// landing contact
+.landing-contact {
+  .bg-icon-left {
+    .tagline,
+    .title {
+      opacity: 0.92;
+    }
+    .description {
+      opacity: 0.78;
+    }
+  }
+}
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    // Real customers reviews
+    .landing-reviews {
+      .swiper-reviews-carousel {
+        .swiper-pagination {
+          .swiper-pagination-bullet {
+            background-color: rgba(light.$black, 0.12);
+            &.swiper-pagination-bullet-active {
+              background-color: rgba(light.$black, 0.26) !important;
+            }
+          }
+        }
+      }
+    }
+    // our great team
+    .landing-team {
+      .card {
+        &:hover {
+          .team-media-icons {
+            i[class*='facebook'] {
+              color: var(--#{light.$prefix}facebook);
+            }
+            i[class*='twitter'] {
+              color: var(--#{light.$prefix}twitter);
+            }
+            i[class*='linkedin'] {
+              color: var(--#{light.$prefix}linkedin);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Dark style
+@if $enable-dark-style {
+  .dark-style {
+    // Real customers reviews
+    .landing-reviews {
+      .swiper-reviews-carousel {
+        .swiper-pagination {
+          .swiper-pagination-bullet {
+            background-color: rgba(dark.$white, 0.12);
+            &.swiper-pagination-bullet-active {
+              background-color: rgba(dark.$white, 0.26) !important;
+            }
+          }
+        }
+      }
+    }
+    // our great team
+    .landing-team {
+      .card {
+        &:hover {
+          .team-media-icons {
+            i[class*='facebook'] {
+              color: var(--#{dark.$prefix}facebook);
+            }
+            i[class*='twitter'] {
+              color: var(--#{dark.$prefix}twitter);
+            }
+            i[class*='linkedin'] {
+              color: var(--#{dark.$prefix}linkedin);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// RTL
+@if $enable-rtl-support {
+  [dir='rtl'] {
+    // our great team
+    .landing-team {
+      .team-image-box {
+        .card-img-position {
+          transform: translateX(50%) !important;
+        }
+      }
+    }
+  }
+}

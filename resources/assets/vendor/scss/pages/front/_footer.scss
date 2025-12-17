@@ -1,0 +1,57 @@
+.landing-footer {
+  .footer-link {
+    transition: light.$btn-transition;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  .footer-link,
+  .footer-text,
+  .footer-title {
+    color: light.$white;
+  }
+  .footer-link,
+  .footer-text {
+    opacity: 0.78;
+  }
+  .app-brand-text.footer-link {
+    opacity: 1;
+  }
+  .footer-title {
+    opacity: 0.92;
+  }
+  .footer-top {
+    padding: 3rem 0;
+    @include light.media-breakpoint-down(md) {
+      padding: 3rem 0;
+    }
+    .footer-bg {
+      object-position: center;
+    }
+  }
+  @include light.media-breakpoint-up(lg) {
+    .footer-logo-description {
+      max-width: 385px;
+    }
+  }
+  .footer-bottom {
+    background-color: $footer-bottom-bg;
+    .footer-text,
+    .footer-link {
+      opacity: 0.92;
+    }
+  }
+  .form-floating {
+    &.form-floating-outline {
+      .form-control {
+        color: dark.$headings-color;
+      }
+      .form-control:focus,
+      .form-control:not(:placeholder-shown) {
+        ~ label:after {
+          background: $footer-top-bg !important;
+        }
+      }
+    }
+  }
+}
