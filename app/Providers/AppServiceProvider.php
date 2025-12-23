@@ -52,14 +52,12 @@ class AppServiceProvider extends ServiceProvider
             if ($role) {
                 $menus = $role->menus()
                     ->whereNull('parent_id')
+                    ->wherePivot('can_read', true)
                     ->with(['children' => function($q) use ($role) {
                         $q->whereHas('roles', function($rq) use ($role) {
-                            $rq->where('roles.id', $role->id);
+                            $rq->where('roles.id', $role->id)->where('can_read', true);
                         })->orderBy('order_no');
                     }])
-                    ->whereHas('roles', function($q) use ($role) {
-                        $q->where('roles.id', $role->id);
-                    })
                     ->orderBy('order_no')
                     ->get();
             }

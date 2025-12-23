@@ -47,21 +47,20 @@ $configData = Helper::appClasses();
       @php
       $activeClass = null;
       $currentRouteName = Route::currentRouteName();
+      $currentUrl = request()->path();
+      
+      $hasChildren = (isset($menu->submenu) && count($menu->submenu) > 0) || (isset($menu->children) && count($menu->children) > 0);
 
-      if ($currentRouteName === $menu->slug) {
+      if ($currentRouteName === $menu->slug || ($menu->url && request()->is(ltrim($menu->url, '/') . '*'))) {
         $activeClass = 'active';
       }
-      elseif (isset($menu->submenu)) {
-        if (gettype($menu->slug) === 'array') {
-          foreach($menu->slug as $slug){
-            if (str_contains($currentRouteName,$slug) and strpos($currentRouteName,$slug) === 0) {
-              $activeClass = 'active open';
-            }
-          }
-        }
-        else{
-          if (str_contains($currentRouteName,$menu->slug) and strpos($currentRouteName,$menu->slug) === 0) {
+      
+      if ($hasChildren) {
+        $children = $menu->submenu ?? $menu->children;
+        foreach($children as $child) {
+          if ($currentRouteName === $child->slug || ($child->url && request()->is(ltrim($child->url, '/') . '*'))) {
             $activeClass = 'active open';
+            break;
           }
         }
       }
@@ -69,9 +68,9 @@ $configData = Helper::appClasses();
 
       {{-- main menu --}}
       <li class="menu-item {{$activeClass}}">
-        <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}" class="{{ (isset($menu->submenu) || isset($menu->children)) ? 'menu-link menu-toggle' : 'menu-link' }}" @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
+        <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}" class="{{ $hasChildren ? 'menu-link menu-toggle' : 'menu-link' }}" @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
           @isset($menu->icon)
-            <i class="{{ $menu->icon }}"></i>
+            <i class="menu-icon tf-icons {{ $menu->icon }} me-3"></i>
           @endisset
           <div>{{ isset($menu->name) ? __($menu->name) : '' }}</div>
           @isset($menu->badge)
@@ -80,11 +79,11 @@ $configData = Helper::appClasses();
         </a>
 
         {{-- submenu --}}
-        @if (isset($menu->submenu) || isset($menu->children))
+        @if ($hasChildren)
           @php
             $submenuData = $menu->submenu ?? $menu->children;
           @endphp
-          @include('layouts.sections.menu.submenu',['menu' => $submenuData])
+          @include('layouts.sections.menu.submenu',['menu' => $submenuData, 'configData' => $configData])
         @endif
       </li>
       @endif

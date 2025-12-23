@@ -26,11 +26,16 @@
           <thead class="table-light">
             <tr>
               <th rowspan="2" class="text-center align-middle">Menu</th>
-              <th colspan="{{ count($roles) }}" class="text-center">Roles</th>
+              @foreach($roles as $role)
+                <th colspan="4" class="text-center">{{ $role->name }}</th>
+              @endforeach
             </tr>
             <tr>
               @foreach($roles as $role)
-                <th class="text-center">{{ $role->name }}</th>
+                <th class="text-center" title="Create">C</th>
+                <th class="text-center" title="Read">R</th>
+                <th class="text-center" title="Update">U</th>
+                <th class="text-center" title="Delete">D</th>
               @endforeach
             </tr>
           </thead>
@@ -39,9 +44,20 @@
               <tr class="table-secondary">
                 <td><strong>{{ $menu->name }}</strong></td>
                 @foreach($roles as $role)
+                  @php
+                    $pivot = $role->menus->find($menu->id)?->pivot;
+                  @endphp
                   <td class="text-center">
-                    <input type="checkbox" name="permissions[{{ $role->id }}][{{ $menu->id }}]" value="1" 
-                      {{ $role->menus->contains($menu->id) ? 'checked' : '' }} class="form-check-input">
+                    <input type="checkbox" name="permissions[{{ $role->id }}][{{ $menu->id }}][c]" value="1" {{ $pivot?->can_create ? 'checked' : '' }} class="form-check-input">
+                  </td>
+                  <td class="text-center">
+                    <input type="checkbox" name="permissions[{{ $role->id }}][{{ $menu->id }}][r]" value="1" {{ $pivot?->can_read ? 'checked' : '' }} class="form-check-input">
+                  </td>
+                  <td class="text-center">
+                    <input type="checkbox" name="permissions[{{ $role->id }}][{{ $menu->id }}][u]" value="1" {{ $pivot?->can_update ? 'checked' : '' }} class="form-check-input">
+                  </td>
+                  <td class="text-center">
+                    <input type="checkbox" name="permissions[{{ $role->id }}][{{ $menu->id }}][d]" value="1" {{ $pivot?->can_delete ? 'checked' : '' }} class="form-check-input">
                   </td>
                 @endforeach
               </tr>
@@ -49,9 +65,20 @@
                 <tr>
                   <td class="ps-5">— {{ $child->name }}</td>
                   @foreach($roles as $role)
+                    @php
+                      $pivot = $role->menus->find($child->id)?->pivot;
+                    @endphp
                     <td class="text-center">
-                      <input type="checkbox" name="permissions[{{ $role->id }}][{{ $child->id }}]" value="1" 
-                        {{ $role->menus->contains($child->id) ? 'checked' : '' }} class="form-check-input">
+                      <input type="checkbox" name="permissions[{{ $role->id }}][{{ $child->id }}][c]" value="1" {{ $pivot?->can_create ? 'checked' : '' }} class="form-check-input">
+                    </td>
+                    <td class="text-center">
+                      <input type="checkbox" name="permissions[{{ $role->id }}][{{ $child->id }}][r]" value="1" {{ $pivot?->can_read ? 'checked' : '' }} class="form-check-input">
+                    </td>
+                    <td class="text-center">
+                      <input type="checkbox" name="permissions[{{ $role->id }}][{{ $child->id }}][u]" value="1" {{ $pivot?->can_update ? 'checked' : '' }} class="form-check-input">
+                    </td>
+                    <td class="text-center">
+                      <input type="checkbox" name="permissions[{{ $role->id }}][{{ $child->id }}][d]" value="1" {{ $pivot?->can_delete ? 'checked' : '' }} class="form-check-input">
                     </td>
                   @endforeach
                 </tr>

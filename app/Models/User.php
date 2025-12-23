@@ -51,4 +51,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function hasPermission($menuSlug, $action)
+    {
+        if (!$this->role) return false;
+
+        $menu = $this->role->menus()->where('menus.slug', $menuSlug)->first();
+        if (!$menu) return false;
+
+        return (bool) $menu->pivot->{"can_{$action}"};
+    }
 }

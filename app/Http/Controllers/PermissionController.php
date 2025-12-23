@@ -20,8 +20,18 @@ class PermissionController extends Controller
         $data = $request->input('permissions', []);
 
         foreach (Role::all() as $role) {
-            $menuIds = isset($data[$role->id]) ? array_keys($data[$role->id]) : [];
-            $role->menus()->sync($menuIds);
+            $formattedData = [];
+            if (isset($data[$role->id])) {
+                foreach ($data[$role->id] as $menuId => $actions) {
+                    $formattedData[$menuId] = [
+                        'can_create' => isset($actions['c']),
+                        'can_read'   => isset($actions['r']),
+                        'can_update' => isset($actions['u']),
+                        'can_delete' => isset($actions['d']),
+                    ];
+                }
+            }
+            $role->menus()->sync($formattedData);
         }
 
         return redirect()->back()->with('success', 'Hak akses berhasil diperbarui');

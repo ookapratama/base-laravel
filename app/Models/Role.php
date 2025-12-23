@@ -18,6 +18,6 @@ class Role extends Model
 
     public function menus()
     {
-        return $this->belongsToMany(Menu::class, 'role_menu');
+        return $this->belongsToMany(Menu::class, 'role_menu')->withPivot('can_create', 'can_read', 'can_update', 'can_delete');
     }
 }
