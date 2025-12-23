@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ResponseHelper;
 use App\Services\UserService;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
@@ -19,16 +18,15 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = $this->service->all();
-        return ResponseHelper::success($users, 'Users retrieved successfully');
+        return view('pages.user.index', compact('users'));
     }
 
     /**
-     * Display the specified user
+     * Show the form for creating a new user
      */
-    public function show(int $id)
+    public function create()
     {
-        $user = $this->service->find($id);
-        return ResponseHelper::success($user, 'User retrieved successfully');
+        return view('pages.user.create');
     }
 
     /**
@@ -37,8 +35,28 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $data = $request->validated();
-        $result = $this->service->store($data);
-        return ResponseHelper::success($result, 'User created successfully');
+        $this->service->store($data);
+
+        return redirect()->route('user.index')
+            ->with('success', 'User berhasil ditambahkan!');
+    }
+
+    /**
+     * Display the specified user
+     */
+    public function show(int $id)
+    {
+        $user = $this->service->find($id);
+        return view('pages.user.show', compact('user'));
+    }
+
+    /**
+     * Show the form for editing the specified user
+     */
+    public function edit(int $id)
+    {
+        $user = $this->service->find($id);
+        return view('pages.user.edit', compact('user'));
     }
 
     /**
@@ -47,8 +65,10 @@ class UserController extends Controller
     public function update(UserRequest $request, int $id)
     {
         $data = $request->validated();
-        $result = $this->service->update($id, $data);
-        return ResponseHelper::success($result, 'User updated successfully');
+        $this->service->update($id, $data);
+
+        return redirect()->route('user.index')
+            ->with('success', 'User berhasil diperbarui!');
     }
 
     /**
@@ -57,6 +77,8 @@ class UserController extends Controller
     public function destroy(int $id)
     {
         $this->service->delete($id);
-        return ResponseHelper::success(null, 'User deleted successfully');
+
+        return redirect()->route('user.index')
+            ->with('success', 'User berhasil dihapus!');
     }
 }
