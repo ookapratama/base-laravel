@@ -25,7 +25,14 @@ $configData = Helper::appClasses();
   <div class="menu-inner-shadow"></div>
 
   <ul class="menu-inner py-1">
-    @foreach ($menuData[0]->menu as $menu)
+    @php
+      $displayMenu = $menuData[0];
+      if (isset($displayMenu->menu)) {
+        $displayMenu = $displayMenu->menu;
+      }
+    @endphp
+
+    @foreach ($displayMenu as $menu)
 
       {{-- adding active and open class if child is active --}}
 
@@ -62,7 +69,7 @@ $configData = Helper::appClasses();
 
       {{-- main menu --}}
       <li class="menu-item {{$activeClass}}">
-        <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}" class="{{ isset($menu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }}" @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
+        <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}" class="{{ (isset($menu->submenu) || isset($menu->children)) ? 'menu-link menu-toggle' : 'menu-link' }}" @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
           @isset($menu->icon)
             <i class="{{ $menu->icon }}"></i>
           @endisset
@@ -73,9 +80,12 @@ $configData = Helper::appClasses();
         </a>
 
         {{-- submenu --}}
-        @isset($menu->submenu)
-          @include('layouts.sections.menu.submenu',['menu' => $menu->submenu])
-        @endisset
+        @if (isset($menu->submenu) || isset($menu->children))
+          @php
+            $submenuData = $menu->submenu ?? $menu->children;
+          @endphp
+          @include('layouts.sections.menu.submenu',['menu' => $submenuData])
+        @endif
       </li>
       @endif
     @endforeach

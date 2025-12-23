@@ -17,6 +17,14 @@ class AppServiceProvider extends ServiceProvider
     {
         // Repository bindings
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(
+            \App\Interfaces\Repositories\RoleRepositoryInterface::class,
+            \App\Repositories\RoleRepository::class
+        );
+        $this->app->bind(
+            \App\Interfaces\Repositories\MenuRepositoryInterface::class,
+            \App\Repositories\MenuRepository::class
+        );
     }
 
     /**
@@ -31,17 +39,39 @@ class AppServiceProvider extends ServiceProvider
 
         // Share menu data with all views
         View::composer('*', function ($view) {
-            // Load vertical menu JSON
-            $verticalMenuJson = file_get_contents(resource_path('menu/verticalMenu.json'));
-            $verticalMenuData = json_decode($verticalMenuJson);
+            $menus = collect();
+            
+            if (auth()->check()) {
+                $role = auth()->user()->role;
+            } else {
+                // Fallback to Super Admin menus for Guest/Demo if no auth
+                // Or just the first role found
+                $role = \App\Models\Role::where('slug', 'super-admin')->first();
+            }
 
-            // Load horizontal menu JSON
-            $horizontalMenuJson = file_get_contents(resource_path('menu/horizontalMenu.json'));
-            $horizontalMenuData = json_decode($horizontalMenuJson);
+            if ($role) {
+                $menus = $role->menus()
+                    ->whereNull('parent_id')
+                    ->with(['children' => function($q) use ($role) {
+                        $q->whereHas('roles', function($rq) use ($role) {
+                            $rq->where('roles.id', $role->id);
+                        })->orderBy('order_no');
+                    }])
+                    ->whereHas('roles', function($q) use ($role) {
+                        $q->where('roles.id', $role->id);
+                    })
+                    ->orderBy('order_no')
+                    ->get();
+            }
 
-            // Share menu data
-            $view->with('menuData', [$verticalMenuData]);
-            $view->with('menuHorizontal', [$horizontalMenuData]);
+            // Fallback to JSON if no menus found in DB
+            if ($menus->isEmpty()) {
+                $verticalMenuJson = file_get_contents(resource_path('menu/verticalMenu.json'));
+                $menus = json_decode($verticalMenuJson)->menu ?? [];
+            }
+
+            $view->with('menuData', [$menus]);
+            $view->with('menuHorizontal', [[]]); // Placeholder
         });
 
         // Share template variables config
