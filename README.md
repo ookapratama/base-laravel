@@ -1,59 +1,185 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Base Laravel - Service Repository Pattern
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Template Laravel dengan Service Repository Pattern untuk pengembangan aplikasi yang terstruktur dan maintainable.
 
-## About Laravel
+## 📋 Fitur
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Service Repository Pattern** - Pemisahan business logic, data access, dan presentation
+- **Base Classes** - `BaseRepository`, `BaseService`, `BaseRequest` yang reusable
+- **Response Helper** - Standarisasi response API
+- **Admin Template** - Template Sneat Bootstrap 5
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📁 Struktur Folder
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```
+app/
+├── Helpers/
+│   ├── ResponseHelper.php      # Standarisasi JSON response
+│   └── ViewConfigHelper.php    # Konfigurasi view/template
+├── Http/
+│   ├── Controllers/
+│   │   └── UserController.php  # Contoh controller
+│   └── Requests/
+│       ├── BaseRequest.php     # Base form request
+│       └── UserRequest.php     # Contoh request validation
+├── Interfaces/
+│   └── Repositories/
+│       ├── BaseRepositoryInterface.php
+│       └── UserRepositoryInterface.php
+├── Models/
+│   └── User.php
+├── Repositories/
+│   ├── BaseRepository.php      # Implementasi CRUD dasar
+│   └── UserRepository.php      # Contoh repository
+├── Services/
+│   ├── BaseService.php         # Wrapper CRUD methods
+│   └── UserService.php         # Contoh service dengan business logic
+└── Providers/
+    └── AppServiceProvider.php  # Binding interface ke implementasi
+```
 
-## Learning Laravel
+## 🚀 Instalasi
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+```bash
+# Clone repository
+git clone <repo-url>
+cd base-laravel
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Install dependencies
+composer install
+npm install
 
-## Laravel Sponsors
+# Setup environment
+cp .env.example .env
+php artisan key:generate
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# Migrate database
+php artisan migrate
 
-### Premium Partners
+# Build assets
+npm run build
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# Run development server
+composer dev
+```
 
-## Contributing
+## 💡 Cara Penggunaan
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1. Membuat Feature Baru
 
-## Code of Conduct
+**Step 1: Buat Model & Migration**
+```bash
+php artisan make:model Product -m
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**Step 2: Buat Interface Repository**
+```php
+// app/Interfaces/Repositories/ProductRepositoryInterface.php
+interface ProductRepositoryInterface extends BaseRepositoryInterface
+{
+    // Tambah method spesifik jika diperlukan
+}
+```
 
-## Security Vulnerabilities
+**Step 3: Buat Repository**
+```php
+// app/Repositories/ProductRepository.php
+class ProductRepository extends BaseRepository implements ProductRepositoryInterface
+{
+    public function __construct(Product $model)
+    {
+        parent::__construct($model);
+    }
+}
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**Step 4: Buat Service**
+```php
+// app/Services/ProductService.php
+class ProductService extends BaseService
+{
+    public function __construct(ProductRepository $repository)
+    {
+        parent::__construct($repository);
+    }
+}
+```
 
-## License
+**Step 5: Buat Controller**
+```php
+// app/Http/Controllers/ProductController.php
+class ProductController extends Controller
+{
+    public function __construct(protected ProductService $service) {}
+    
+    // CRUD methods...
+}
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Step 6: Daftarkan di AppServiceProvider**
+```php
+$this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
+```
+
+### 2. Response API
+
+Gunakan `ResponseHelper` untuk response yang konsisten:
+
+```php
+use App\Helpers\ResponseHelper;
+
+// Success response
+return ResponseHelper::success($data, 'Data retrieved successfully');
+
+// Error response
+return ResponseHelper::error('Something went wrong', 400);
+```
+
+### 3. Form Request Validation
+
+Extend `BaseRequest` untuk validasi dengan error format standar:
+
+```php
+class ProductRequest extends BaseRequest
+{
+    public function rules(): array
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+        ];
+    }
+}
+```
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+php artisan test
+
+# Run specific test
+php artisan test --filter=UserPostTest
+```
+
+## 📝 API Endpoints (User)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/user` | List all users |
+| GET | `/user/{id}` | Get user by ID |
+| POST | `/user` | Create new user |
+| PUT | `/user/{id}` | Update user |
+| DELETE | `/user/{id}` | Delete user |
+
+## 🛠 Scripts
+
+```bash
+composer setup    # Full setup termasuk npm install & migrate
+composer dev      # Jalankan server, queue, pail, dan vite
+composer test     # Jalankan tests
+```
+
+## 📄 License
+
+MIT License

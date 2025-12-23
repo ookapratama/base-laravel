@@ -4,13 +4,14 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class UserPostTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
-     * A basic feature test example.
+     * Test creating user via POST request
      */
     public function test_post_web_route()
     {
@@ -19,12 +20,12 @@ class UserPostTest extends TestCase
             'email' => 'ooka2@gmail.com',
             'password' => '123456',
         ]);
-        dump(
-            config('database.default'),
-            DB::connection()->getDatabaseName()
-        );
 
-        $response->dump();
         $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'status',
+            'message',
+            'data' => ['id', 'name', 'email'],
+        ]);
     }
 }
