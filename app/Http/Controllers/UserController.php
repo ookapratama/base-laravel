@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     public function __construct(
-        protected UserService $service
+        protected UserService $service,
+        protected \App\Interfaces\Repositories\RoleRepositoryInterface $roleRepository
     ) {}
 
     /**
@@ -26,7 +27,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('pages.user.create');
+        $roles = $this->roleRepository->all();
+        return view('pages.user.create', compact('roles'));
     }
 
     /**
@@ -56,7 +58,8 @@ class UserController extends Controller
     public function edit(int $id)
     {
         $user = $this->service->find($id);
-        return view('pages.user.edit', compact('user'));
+        $roles = $this->roleRepository->all();
+        return view('pages.user.edit', compact('user', 'roles'));
     }
 
     /**

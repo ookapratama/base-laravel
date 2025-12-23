@@ -65,6 +65,7 @@
               <th>#</th>
               <th>Nama</th>
               <th>Email</th>
+              <th>Role</th>
               <th>Dibuat</th>
               <th>Aksi</th>
             </tr>
@@ -84,6 +85,13 @@
                 </div>
               </td>
               <td>{{ $user->email }}</td>
+              <td>
+                @if($user->role)
+                  <span class="badge bg-label-primary">{{ $user->role->name }}</span>
+                @else
+                  <span class="badge bg-label-secondary">Tidak ada role</span>
+                @endif
+              </td>
               <td>{{ $user->created_at->format('d M Y') }}</td>
               <td>
                 <div class="dropdown">

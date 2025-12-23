@@ -11,6 +11,7 @@ class UserRequest extends BaseRequest
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
+            'role_id' => 'required|exists:roles,id',
         ];
 
         // Password required only on create
@@ -35,6 +36,8 @@ class UserRequest extends BaseRequest
             'email.unique' => 'Email sudah digunakan',
             'password.required' => 'Password wajib diisi',
             'password.min' => 'Password minimal 6 karakter',
+            'role_id.required' => 'Role wajib dipilih',
+            'role_id.exists' => 'Role yang dipilih tidak valid',
         ];
     }
 
