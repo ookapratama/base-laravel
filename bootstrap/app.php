@@ -23,12 +23,22 @@ return Application::configure(basePath: dirname(__DIR__))
         );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->render(function (\Throwable $e) {
-            Log::error($e);
+        $exceptions->render(function (\Throwable $e, $request) {
+            // Jika request meminta JSON (API), berikan response JSON
+            if ($request->is('api/*') || $request->expectsJson()) {
+                Log::error($e);
+                
+                $code = $e instanceof \Symfony\Component\HttpKernel\Exception\HttpExceptionInterface ? $e->getStatusCode() : 500;
+                
+                return \App\Helpers\ResponseHelper::error(
+                    $e->getMessage() ?: 'Internal Server Error',
+                    code: $code
+                );
+            }
 
-            return \App\Helpers\ResponseHelper::error(
-                'Internal Server Error : ' . $e->getMessage(),
-                code: 500
-            );
+            // Untuk Web, biarkan Laravel menangani AuthenticationException agar bisa redirect ke login
+            if ($e instanceof \Illuminate\Auth\AuthenticationException) {
+                return null; // Biarkan default handling (redirect ke /login)
+            }
         });
     })->create();
