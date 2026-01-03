@@ -12,7 +12,8 @@ Template Laravel modern dengan arsitektur **Service Repository Pattern**, sistem
 -   📁 **File Upload Manager** - Upload tersentralisasi dengan auto-resize & optimasi gambar.
 -   🎨 **Premium Admin UI** - Menggunakan Sneat Bootstrap 5 Admin Template.
 -   🤖 **Custom Code Generator** - Buat modul CRUD lengkap dengan satu perintah.
--   🔔 **Global Alert System** - Terintegrasi dengan SweetAlert2 & Toastr.
+-   � **API Documentation** - Dokumentasi API interaktif menggunakan Swagger (OpenAPI).
+-   �🔔 **Global Alert System** - Terintegrasi dengan SweetAlert2 & Toastr.
 
 ---
 
@@ -67,6 +68,7 @@ Lalu ikuti petunjuk yang muncul di terminal untuk mendaftarkan route & service p
 -   **Core**: Laravel 12.x, PHP 8.2+
 -   **Frontend**: Bootstrap 5, Vite, jQuery (Sneat Template)
 -   **Database**: MySQL / PostgreSQL / SQLite
+-   **API Docs**: Swagger (L5-Swagger)
 -   **Processing**: Intervention Image v3
 
 ---

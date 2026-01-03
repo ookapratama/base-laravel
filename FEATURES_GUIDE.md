@@ -13,6 +13,7 @@ Dokumentasi ini menjelaskan fitur-fitur utama yang tersedia dalam template ini d
 5. [Standardized API Response](#5-standardized-api-response)
 6. [Dynamic Menu System](#6-dynamic-menu-system)
 7. [Custom Artisan Generator](#7-custom-artisan-generator)
+8. [API Documentation (Swagger)](#8-api-documentation-swagger)
 
 ---
 
@@ -139,9 +140,40 @@ php artisan make:feature Product
 
 ---
 
+## 8. API Documentation (Swagger)
+
+Otomatis generate dokumentasi API yang interaktif sehingga memudahkan kolaborasi dengan tim Frontend atau Mobile.
+
+-   **Endpoint**: Akses di `/api/documentation`.
+-   **Generator**: Gunakan perintah artisan untuk update dokumentasi setelah menambah tipe @OA annotations.
+-   **Sanctum Integration**: Mendukung otentikasi Bearer Token (Sanctum).
+
+**Cara Update Dokumentasi:**
+
+```bash
+php artisan l5-swagger:generate
+```
+
+**Contoh Annotasi di Controller:**
+
+```php
+/**
+ * @OA\Get(
+ *     path="/api/users",
+ *     tags={"Users"},
+ *     summary="Get users list",
+ *     @OA\Response(response=200, description="OK")
+ * )
+ */
+```
+
+---
+
 ## 🛠️ Tech Stack Utama
 
 -   **Laravel 12.x**
+-   **L5-Swagger** (OpenAPI Documentation)
+-   **Laravel Sanctum** (API Auth)
 -   **Bootstrap 5 (Sneat Template)**
 -   **Intervention Image v3** (Image Processing)
 -   **SweetAlert2 & Toastr** (Alerts)
