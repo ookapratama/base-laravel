@@ -24,6 +24,7 @@ Untuk penjelasan mendalam mengenai fitur-fitur di atas, silakan baca dokumentasi
 | Dokumentasi                                           | Deskripsi                                          |
 | ----------------------------------------------------- | -------------------------------------------------- |
 | 📘 **[FEATURES_GUIDE.md](FEATURES_GUIDE.md)**         | **PANDUAN LENGKAP** semua fitur dan cara pakainya. |
+| 🛠 **[DEVELOPMENT_GUIDE.md](DEVELOPMENT_GUIDE.md)**   | **PANDUAN KODING** cara menambah fitur baru.       |
 | 🕵️ **[ACTIVITY_LOG_GUIDE.md](ACTIVITY_LOG_GUIDE.md)** | Detail sistem audit trail & monitoring user.       |
 | 🔔 **[ALERT_SYSTEM_GUIDE.md](ALERT_SYSTEM_GUIDE.md)** | Cara menggunakan SweetAlert & Toastr global.       |
 
@@ -59,7 +60,7 @@ Ingin membuat modul baru (misal: Produk)? Cukup jalankan:
 php artisan make:feature Product
 ```
 
-Lalu ikuti petunjuk yang muncul di terminal untuk mendaftarkan route & service provider.
+Untuk langkah detail setelah menjalankan command di atas (Seeder, Route, UI), silakan lihat: **[DEVELOPMENT_GUIDE.md](DEVELOPMENT_GUIDE.md)**.
 
 ---
 
