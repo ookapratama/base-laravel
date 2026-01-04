@@ -99,6 +99,7 @@ class AppServiceProvider extends ServiceProvider
                 'templateAuthorUrl' => '#',
                 'creatorName' => 'Ooka Pratama',
                 'creatorUrl' => '#',
+                'documentation' => 'https://demos.pixinvent.com/materialize-html-admin-template/documentation/',
             ],
         ]);
     }
