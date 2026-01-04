@@ -96,7 +96,9 @@ class AppServiceProvider extends ServiceProvider
                 'templateSuffix' => '',
                 'templateDomain' => 'localhost',
                 'templateAuthor' => 'Ooka Pratama',
-                'templateAuthorUrl' => '',
+                'templateAuthorUrl' => '#',
+                'creatorName' => 'Ooka Pratama',
+                'creatorUrl' => '#',
             ],
         ]);
     }
