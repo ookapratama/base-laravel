@@ -91,7 +91,6 @@ If you find this project useful, please consider supporting its development. You
 
 -   **GitHub Sponsors**: [Sponsor @ookapratama](https://github.com/sponsors/ookapratama)
 -   **Buy Me a Coffee**: [buymeacoffee.com/ookapratama](https://www.buymeacoffee.com/ookapratama)
--   **Ko-fi**: [ko-fi.com/ookapratama](https://ko-fi.com/ookapratama)
 
 For Indonesian supporters:
 
