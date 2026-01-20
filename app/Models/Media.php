@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 
+use App\Traits\LogsActivity;
+
 class Media extends Model
 {
+    use LogsActivity;
     protected $fillable = [
         'user_id',
         'filename',

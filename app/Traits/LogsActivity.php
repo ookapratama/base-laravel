@@ -64,29 +64,31 @@ trait LogsActivity
         if ($action === 'created') {
             $newValues = static::filterAttributes($model->getAttributes(), $logAttributes, $logExcept);
         } elseif ($action === 'updated') {
+            // Kita gunakan $model->getOriginal() vs $model->getAttributes() atau $model->getChanges()
+            // getChanges() hanya tersedia SETELAH save. 
+            // Namun di event updated, changes sudah tersedia.
             $changes = $model->getChanges();
-            $oldValues = static::filterAttributes($model->getOriginal(), array_keys($changes), $logExcept);
-            $newValues = static::filterAttributes($changes, $logAttributes, $logExcept);
+            
+            // Jika tidak ada perubahan yang perlu di-log, skip
+            $loggedChanges = static::filterAttributes($changes, $logAttributes, $logExcept);
+            if (empty($loggedChanges)) {
+                return;
+            }
+
+            $newValues = $loggedChanges;
+            $oldValues = static::filterAttributes($model->getOriginal(), array_keys($loggedChanges), $logExcept);
         } elseif ($action === 'deleted') {
             $oldValues = static::filterAttributes($model->getOriginal(), $logAttributes, $logExcept);
         }
 
-        // Skip jika tidak ada perubahan yang di-log
-        if ($action === 'updated' && empty($newValues)) {
-            return;
-        }
-
-        ActivityLog::create([
-            'user_id' => Auth::id(),
-            'action' => $action,
-            'description' => static::getLogDescription($action, $model),
-            'subject_type' => get_class($model),
-            'subject_id' => $model->getKey(),
-            'old_values' => $oldValues,
-            'new_values' => $newValues,
-            'ip_address' => Request::ip(),
-            'user_agent' => Request::userAgent(),
-        ]);
+        // Gunakan service untuk mencatat log
+        app(\App\Services\ActivityLogService::class)->log(
+            action: $action,
+            description: static::getLogDescription($action, $model),
+            subject: $model,
+            oldValues: $oldValues,
+            newValues: $newValues
+        );
     }
 
     /**

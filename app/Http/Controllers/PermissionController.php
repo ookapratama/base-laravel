@@ -37,6 +37,13 @@ class PermissionController extends Controller
                 }
             }
             $role->menus()->sync($formattedData);
+
+            // Log manual because pivot sync doesn't trigger standard Eloquent events
+            $role->logCustomActivity(
+                'updated_permissions',
+                "Hak akses untuk role '{$role->name}' telah diperbarui",
+                ['permissions' => $formattedData]
+            );
         } else {
             // Fallback for bulk update if needed
             foreach (Role::all() as $role) {
@@ -52,6 +59,13 @@ class PermissionController extends Controller
                     }
                 }
                 $role->menus()->sync($formattedData);
+
+                // Log manual
+                $role->logCustomActivity(
+                    'updated_permissions',
+                    "Hak akses untuk role '{$role->name}' telah diperbarui (bulk)",
+                    ['permissions' => $formattedData]
+                );
             }
         }
 
