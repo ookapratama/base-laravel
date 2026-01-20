@@ -3,10 +3,10 @@
  * A utility class to handle SweetAlert2 and Toastr notifications
  * based on standardized JSON responses.
  */
-import Swal from 'sweetalert2';
-import toastr from 'toastr';
-import 'toastr/build/toastr.css';
-import 'sweetalert2/dist/sweetalert2.min.css';
+import Swal from "sweetalert2";
+import toastr from "toastr";
+import "toastr/build/toastr.css";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 class AlertHandler {
     constructor() {
@@ -108,6 +108,27 @@ class AlertHandler {
             },
             buttonsStyling: false,
         });
+    }
+
+    /**
+     * Show a generic warning message
+     * @param {string} message
+     * @param {boolean} useToast - If true, use Toastr instead of SweetAlert
+     */
+    showWarning(message, useToast = false) {
+        if (useToast && this.toastr) {
+            this.toastr.warning(message);
+        } else {
+            this.swal.fire({
+                icon: "warning",
+                title: "Warning!",
+                text: message,
+                customClass: {
+                    confirmButton: "btn btn-primary",
+                },
+                buttonsStyling: false,
+            });
+        }
     }
 
     /**
