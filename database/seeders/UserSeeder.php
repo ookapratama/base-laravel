@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
 
         // 1. Super Admin
         User::updateOrCreate(
-            ['email' => 'superadmin@example.com'],
+            ['email' => 'superadmin@gmail.com'],
             [
                 'name' => 'Super Admin',
                 'password' => Hash::make('password'),
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
 
         // 2. Admin
         User::updateOrCreate(
-            ['email' => 'admin@example.com'],
+            ['email' => 'admin@gmail.com'],
             [
                 'name' => 'Admin User',
                 'password' => Hash::make('password'),
@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
 
         // 3. Regular User
         User::updateOrCreate(
-            ['email' => 'user@example.com'],
+            ['email' => 'user@gmail.com'],
             [
                 'name' => 'Regular User',
                 'password' => Hash::make('password'),
