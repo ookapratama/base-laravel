@@ -119,3 +119,75 @@
 #toast-container {
     z-index: 10000 !important;
 }
+
+/*
+* Permission & Role Management
+******************************************************************************/
+
+/* Border dashed for add new card */
+.border-dashed {
+    border: 2px dashed var(--bs-border-color) !important;
+}
+
+.border-dashed:hover {
+    border-color: var(--bs-primary) !important;
+    background-color: rgba(var(--bs-primary-rgb), 0.04);
+}
+
+/* Cursor pointer utility */
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+/* Permission table styling */
+.table .form-check-input {
+    cursor: pointer;
+}
+
+.table .form-check-input:hover {
+    border-color: var(--bs-primary);
+}
+
+/* Parent row styling */
+.table-active {
+    background-color: rgba(var(--bs-primary-rgb), 0.04) !important;
+}
+
+/* Child row hover */
+.child-row:hover {
+    background-color: rgba(var(--bs-secondary-rgb), 0.04);
+}
+
+/* Badge in table header */
+.table thead th .badge {
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+/* Avatar initial smaller font */
+.avatar-xs .avatar-initial i {
+    font-size: 0.875rem;
+}
+
+/* Card selection state */
+.card.border-primary {
+    border-width: 2px !important;
+}
+
+/* Role card hover effect */
+.card:hover:not(.border-dashed) {
+    box-shadow: 0 0.125rem 0.75rem rgba(0, 0, 0, 0.1);
+}
+
+/* Button icon text style */
+.btn-text-primary:hover {
+    background-color: rgba(var(--bs-primary-rgb), 0.08);
+}
+
+.btn-text-info:hover {
+    background-color: rgba(var(--bs-info-rgb), 0.08);
+}
+
+.btn-text-danger:hover {
+    background-color: rgba(var(--bs-danger-rgb), 0.08);
+}
