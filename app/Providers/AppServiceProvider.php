@@ -86,10 +86,15 @@ class AppServiceProvider extends ServiceProvider
             $view->with('menuHorizontal', [[]]); // Placeholder
         });
 
-        // Share template variables config
+        // Share template variables config from Database or defaults
+        $settingService = app(\App\Services\SettingService::class);
+        
         config([
             'variables' => [
-                'templateName' => 'Base Laravel',
+                'templateName' => $settingService->get('app_name', 'Base Laravel'),
+                'templateDescription' => $settingService->get('app_description', 'Base project builder'),
+                'templateLogo' => $settingService->get('app_logo'),
+                'templateFavicon' => $settingService->get('app_favicon'),
                 'templateVersion' => '1.0.0',
                 'templateFree' => false,
                 'templatePrefix' => '',
@@ -100,6 +105,9 @@ class AppServiceProvider extends ServiceProvider
                 'creatorName' => 'Ooka Pratama',
                 'creatorUrl' => '#',
                 'documentation' => 'https://demos.pixinvent.com/materialize-html-admin-template/documentation/',
+                'contactEmail' => $settingService->get('contact_email'),
+                'contactPhone' => $settingService->get('contact_phone'),
+                'socialInstagram' => $settingService->get('social_instagram'),
             ],
         ]);
     }

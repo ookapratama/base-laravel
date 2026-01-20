@@ -32,5 +32,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('activity-log', [\App\Http\Controllers\ActivityLogController::class, 'index'])->name('activity-log.index');
     Route::get('activity-log/data', [\App\Http\Controllers\ActivityLogController::class, 'getData'])->name('activity-log.data');
     Route::get('activity-log/statistics', [\App\Http\Controllers\ActivityLogController::class, 'statistics'])->name('activity-log.statistics');
+
+    // Website Settings
+    Route::get('settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings.index')->middleware('check.permission:settings.index');
+    Route::post('settings', [\App\Http\Controllers\SettingController::class, 'update'])->name('settings.update')->middleware('check.permission:settings.index');
+
+    // Personal Profile
+    Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
+    Route::post('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::post('profile/password', [\App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.password.update');
 });
 
