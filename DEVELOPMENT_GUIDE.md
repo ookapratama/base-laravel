@@ -47,9 +47,11 @@ Then run: `php artisan migrate`
 
 ### Step B: Model Setup
 
-Add the `LogsActivity` trait for automatic auditing and define `$fillable` & `$casts`:
+Add the **`LogsActivity`** trait for automatic auditing and define `$fillable` & `$casts`. This is crucial for maintaining the system's Audit Trail.
 
 ```php
+use App\Traits\LogsActivity;
+
 class Product extends Model {
     use LogsActivity; // Enable automatic Audit Trail
 

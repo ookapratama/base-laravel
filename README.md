@@ -8,11 +8,14 @@ A modern Laravel starter template designed with **Service Repository Pattern**, 
 
 -   🏗️ **Service Repository Pattern** - Clean, structured, and testable codebase.
 -   🛡️ **Granular Role & Permission** - Robust RBAC (Role Based Access Control) down to per-menu actions (Create, Read, Update, Delete).
--   🕵️ **Activity Log (Audit Trail)** - Automatically track every data change with Before/After snapshots.
--   📁 **File Upload Manager** - Centralized file handling with auto-resize, optimization, and DB tracking.
--   🎨 **Premium Admin UI** - Powered by Sneat Bootstrap 5 Admin Template.
+-   🕵️ **Activity Log (Audit Trail)** - Automatically track every data change with Before/After snapshots via Trait.
+-   ⚙️ **Global Settings & Branding** - Manage App Name, Logo, Favicon, and System settings from the UI.
+-   👤 **Personal Profile Management** - Dedicated page for users to manage info and security.
+-   📊 **Role-Based Dashboards** - Specific views tailored for Administrators and regular Users.
+-   📁 **File Upload Manager** - Centralized file handling with auto-resize and optimization.
+-   🎨 **Premium Admin UI** - Powered by Sneat Bootstrap 5 with Dark/Light mode support.
 -   🤖 **Custom Code Generator** - Scaffold complete CRUD modules with a single command.
--   📖 **API Documentation** - Interactive Swagger (OpenAPI) documentation out of the box.
+-   📖 **API Documentation** - Interactive Swagger (OpenAPI) docs out of the box.
 -   🔔 **Global Alert System** - Pre-configured SweetAlert2 & Toastr integration.
 
 ---

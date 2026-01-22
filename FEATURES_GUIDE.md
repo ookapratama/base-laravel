@@ -9,11 +9,14 @@ This documentation explains the main features available in this template and how
 1. [Service Repository Pattern](#1-service-repository-pattern)
 2. [Activity Log System (Audit Trail)](#2-activity-log-system)
 3. [File Upload Manager](#3-file-upload-manager)
-4. [Role & Permission Management](#4-role--permission-management)
+4. [Role & Permission Management](#4-role-permission-management)
 5. [Standardized API Response](#5-standardized-api-response)
 6. [Dynamic Menu System](#6-dynamic-menu-system)
 7. [Custom Artisan Generator](#7-custom-artisan-generator)
 8. [API Documentation (Swagger)](#8-api-documentation-swagger)
+9. [Global Settings Manager](#9-global-settings-manager)
+10. [User Profile Management](#10-user-profile-management)
+11. [Role-Based Dashboards](#11-role-based-dashboards)
 
 ---
 
@@ -75,7 +78,6 @@ public function store(Request $request, FileUploadService $fileService) {
     ]);
 
     $user->update(['avatar_id' => $media->id]);
-    // Access URL: $media->url
 }
 ```
 
@@ -88,13 +90,6 @@ A very granular Role-Based Access Control (RBAC) system.
 -   **Granular Permission**: Set permissions per menu for actions: `Create`, `Read`, `Update`, `Delete`.
 -   **Middleware**: Use `check.permission:menu-slug` in routes.
 -   **Blade Directive**: Use `@can('access', ['menu-slug', 'create'])`.
-
-**Example in Routes:**
-
-```php
-Route::resource('product', ProductController::class)
-      ->middleware('check.permission:product.index');
-```
 
 ---
 
@@ -117,8 +112,8 @@ return ResponseHelper::error('Failed to process data', 400);
 
 Sidebar navigation menu automatically appears based on the logged-in user's access rights.
 
--   Configuration via database or JSON file: `resources/menu/verticalMenu.json`.
 -   Automatically hides the menu if the user does not have `Read` permission.
+-   Supports infinite nested submenus.
 
 ---
 
@@ -130,55 +125,56 @@ Speed up the creation of new features without manual file copying.
 php artisan make:feature Product
 ```
 
-**This command will create:**
-
--   `app/Interfaces/Repositories/ProductRepositoryInterface.php`
--   `app/Repositories/ProductRepository.php`
--   `app/Services/ProductService.php`
--   `app/Http/Controllers/ProductController.php`
--   `app/Http/Requests/ProductRequest.php`
-
 ---
 
 ## 8. API Documentation (Swagger)
 
-Automatically generate interactive API documentation to facilitate collaboration with Frontend or Mobile teams.
+Automatically generate interactive API documentation to facilitate collaboration.
 
 -   **Endpoint**: Access at `/api/documentation`.
--   **Generator**: Use artisan command to update documentation after adding @OA annotations.
--   **Sanctum Integration**: Supports Bearer Token authentication (Sanctum).
+-   **Sanctum Integration**: Supports Bearer Token authentication.
 
-**How to Update Documentation:**
+---
 
-```bash
-php artisan l5-swagger:generate
-```
+## 9. Global Settings Manager
 
-**Example Annotation in Controller:**
+Centralized control for website branding and system behavior.
 
-```php
-/**
- * @OA\Get(
- *     path="/api/users",
- *     tags={"Users"},
- *     summary="Get users list",
- *     @OA\Response(response=200, description="OK")
- * )
- */
-```
+-   **Branding**: Change App Name, Logo, and Favicon dynamically.
+-   **Contact & Socials**: Manage Email, Phone/WA, and social links.
+-   **System Flags**: Toggle Maintenance Mode or User Registration.
+-   **Performance**: Optimized with caching for extreme speed.
+
+---
+
+## 10. User Profile Management
+
+A self-service portal for users to manage their identity and security.
+
+-   **Personal Info**: Users can update Name and Email.
+-   **Account Security**: Secure password change mechanism.
+-   **Audit Trail**: Changes are automatically logged.
+
+---
+
+## 11. Role-Based Dashboards
+
+Optimized experience depending on the user's role.
+
+-   **Admin Dashboard**: Statistical overview and system monitoring.
+-   **User Dashboard**: Productivity-focused view with quick access.
+-   **Logic**: Managed via `DashboardController` for seamless redirection.
 
 ---
 
 ## 🛠️ Main Tech Stack
 
 -   **Laravel 12.x**
--   **L5-Swagger** (OpenAPI Documentation)
--   **Laravel Sanctum** (API Auth)
 -   **Bootstrap 5 (Sneat Template)**
--   **Intervention Image v3** (Image Processing)
--   **SweetAlert2 & Toastr** (Alerts)
--   **DataTables** (Table list)
--   **Vite** (Assets Bundling)
+-   **Intervention Image v3**
+-   **SweetAlert2 & Toastr**
+-   **DataTables**
+-   **Vite**
 
 ---
 
