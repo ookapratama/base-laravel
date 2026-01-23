@@ -163,11 +163,36 @@ To make the menu appear in the sidebar with the permission system:
 
 ---
 
-## ✅ Final Checklist
+## 📝 7. Versioning & Changelog Standards
 
--   [ ] `make:feature` command executed.
--   [ ] Migration defined & migrated.
--   [ ] Model uses `LogsActivity`.
--   [ ] Route registered & wrapped in `check.permission` middleware.
--   [ ] Menu added in `RoleAndMenuSeeder`.
--   [ ] UI uses Master Layout & AlertHandler.
+This project adheres to [Semantic Versioning](https://semver.org/) and follows the [Keep a Changelog](https://keepachangelog.com/) format.
+
+### A. Semantic Versioning (Major.Minor.Patch)
+
+We use the standard **MAJOR.MINOR.PATCH** versioning strategy:
+
+-   **MAJOR (1.0.0 → 2.0.0)**: Breaking Changes.
+    -   _Example_: Significant database structure changes, framework upgrades that break backward compatibility, or removal of core features.
+-   **MINOR (1.1.0 → 1.2.0)**: New Features (Backward-compatible).
+    -   _Example_: Adding a new module (e.g., Notification Center), adding new API routes, or UI updates that do not break existing functionality.
+-   **PATCH (1.0.0 → 1.0.1)**: Bug Fixes.
+    -   _Example_: Fixing typos, correcting filter logic, CSS style fixes, or minor security patches.
+
+### B. Changelog Categories
+
+Use the following categories when adding entries to `CHANGELOG.md`:
+
+-   **Added**: For new features.
+-   **Changed**: For changes in existing functionality.
+-   **Deprecated**: For features that will be removed soon.
+-   **Removed**: For features that have been removed.
+-   **Fixed**: For bug fixes.
+-   **Security**: For security-related updates.
+
+### C. Update Workflow
+
+1.  During development (In Progress), add your feature notes under the `## [Unreleased]` header.
+2.  When ready to release/merge to production:
+    -   Determine the new version number based on the type of changes (Major/Minor/Patch).
+    -   Change the `[Unreleased]` header to `## [Version Number] - YYYY-MM-DD`.
+    -   Create a new empty `## [Unreleased]` header at the top for the next development cycle.
