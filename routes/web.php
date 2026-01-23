@@ -41,5 +41,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
     Route::post('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
     Route::post('profile/password', [\App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.password.update');
+
+    // Impersonate Features
+    Route::get('impersonate/start/{id}', [\App\Http\Controllers\ImpersonateController::class, 'start'])->name('impersonate.start');
+    Route::get('impersonate/stop', [\App\Http\Controllers\ImpersonateController::class, 'stop'])->name('impersonate.stop');
 });
 

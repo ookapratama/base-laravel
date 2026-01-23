@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleAndMenuSeeder::class,
             UserSeeder::class,
+            SettingSeeder::class,
+            ExtraMenuSeeder::class,
         ]);
     }
 }

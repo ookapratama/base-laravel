@@ -26,6 +26,14 @@ class ActivityLogService
         ?array $oldValues = null,
         ?array $newValues = null
     ): ActivityLog {
+        // Deteksi impersonasi
+        if (session()->has('impersonate_admin_id')) {
+            $properties = array_merge($properties ?? [], [
+                'impersonated_by' => session()->get('impersonate_admin_id'),
+                'is_impersonation' => true
+            ]);
+        }
+
         return ActivityLog::create([
             'user_id' => Auth::id(),
             'action' => $action,
