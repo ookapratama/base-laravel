@@ -98,10 +98,11 @@ class ActivityLogService
         }
 
         // Filter by date range
+        // Filter by date range
         if (!empty($filters['start_date']) && !empty($filters['end_date'])) {
             $query->whereBetween('created_at', [
-                $filters['start_date'],
-                $filters['end_date']
+                $filters['start_date'] . ' 00:00:00',
+                $filters['end_date'] . ' 23:59:59'
             ]);
         }
 

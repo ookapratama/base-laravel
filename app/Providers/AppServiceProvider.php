@@ -46,6 +46,10 @@ class AppServiceProvider extends ServiceProvider
         \Illuminate\Support\Facades\Gate::define('access', function ($user, $slug, $action) {
             return $user->hasPermission($slug, $action);
         });
+        
+        // Use Bootstrap 5 for pagination
+        \Illuminate\Pagination\Paginator::useBootstrapFive();
+
         // Create Helper alias for ViewConfigHelper
         if (!class_exists('Helper')) {
             class_alias(ViewConfigHelper::class, 'Helper');
