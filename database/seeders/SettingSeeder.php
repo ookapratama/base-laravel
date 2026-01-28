@@ -78,6 +78,13 @@ class SettingSeeder extends Seeder
                 'type' => 'boolean',
                 'label' => 'Izinkan Registrasi Baru',
             ],
+            [
+                'key' => 'theme_color',
+                'value' => '#666cff',
+                'group' => 'general',
+                'type' => 'color',
+                'label' => 'Warna Tema Utama',
+            ],
         ];
 
         foreach ($settings as $setting) {

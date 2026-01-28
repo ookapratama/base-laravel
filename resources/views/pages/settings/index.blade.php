@@ -48,6 +48,9 @@
                                           value="{{ $setting->value }}">
                                     @elseif($setting->type === 'textarea')
                                        <textarea name="{{ $setting->key }}" class="form-control" rows="3">{{ $setting->value }}</textarea>
+                                    @elseif($setting->type === 'color')
+                                       <input type="color" name="{{ $setting->key }}" class="form-control"
+                                          value="{{ $setting->value }}">
                                     @elseif($setting->type === 'image')
                                        <div class="d-flex align-items-start align-items-sm-center gap-4">
                                           @if ($setting->value)
@@ -102,7 +105,8 @@
                                        <label class="form-check-label fw-medium"
                                           for="{{ $setting->key }}">{{ $setting->label }}</label>
                                     </div>
-                                    <small class="text-muted d-block mt-1">Mengaktifkan fitur ini akan berdampak pada akses
+                                    <small class="text-muted d-block mt-1">Mengaktifkan fitur ini akan berdampak pada
+                                       akses
                                        publik aplikasi.</small>
                                  </div>
                               @endforeach
