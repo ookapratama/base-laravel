@@ -27,5 +27,6 @@ return [
             'layoutNavbarOptions',
             'themes',
         ],
+        'myPrimaryColor' => '#666cff',
     ],
 ];
