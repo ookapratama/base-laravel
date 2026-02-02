@@ -420,9 +420,9 @@
          // Initial sync of all column headers
          ['c', 'r', 'u', 'd'].forEach(col => syncColumnHeader(col));
 
-         // Parent row checkbox toggle - optionally toggle all children
+         // Parent row checkbox toggle - sync all children in the same column
          document.querySelectorAll('.parent-check').forEach(parentCheck => {
-            parentCheck.addEventListener('dblclick', function() {
+            parentCheck.addEventListener('change', function() {
                const menuId = this.dataset.menuId;
                const colClass = Array.from(this.classList).find(c => c.startsWith('perm-') && c
                   .length === 6);
@@ -433,7 +433,39 @@
                   `.child-check.perm-${col}[data-parent-id="${menuId}"]`);
                const isChecked = this.checked;
 
-               childChecks.forEach(cb => cb.checked = isChecked);
+               childChecks.forEach(cb => {
+                  cb.checked = isChecked;
+               });
+
+               // Trigger header sync
+               syncColumnHeader(col);
+            });
+         });
+
+         // Optional: Child checkbox change - check parent if all children are checked
+         document.querySelectorAll('.child-check').forEach(childCheck => {
+            childCheck.addEventListener('change', function() {
+               const parentId = this.dataset.parentId;
+               const colClass = Array.from(this.classList).find(c => c.startsWith('perm-') && c
+                  .length === 6);
+               if (!colClass || !parentId) return;
+
+               const col = colClass.split('-')[1];
+               const parentCheck = document.querySelector(
+                  `.parent-check.perm-${col}[data-menu-id="${parentId}"]`);
+               if (!parentCheck) return;
+
+               const siblingChecks = document.querySelectorAll(
+                  `.child-check.perm-${col}[data-parent-id="${parentId}"]`);
+               const allChecked = Array.from(siblingChecks).every(cb => cb.checked);
+               const anyChecked = Array.from(siblingChecks).some(cb => cb.checked);
+
+               // Logic: if any child is checked, the parent should probably also be 'considered' for that permission?
+               // But usually, it's either all or manually group.
+               // Let's at least make the parent checked if ALL children are checked.
+               if (allChecked) parentCheck.checked = true;
+               else if (!anyChecked) parentCheck.checked = false;
+
                syncColumnHeader(col);
             });
          });
