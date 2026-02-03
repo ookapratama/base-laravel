@@ -195,4 +195,56 @@ Use the following categories when adding entries to `CHANGELOG.md`:
 2.  When ready to release/merge to production:
     -   Determine the new version number based on the type of changes (Major/Minor/Patch).
     -   Change the `[Unreleased]` header to `## [Version Number] - YYYY-MM-DD`.
-    -   Create a new empty `## [Unreleased]` header at the top for the next development cycle.
+
+---
+
+## 🧪 8. Testing with Pest PHP
+
+Proyek ini menggunakan **Pest PHP** untuk testing karena lebih modern, terbaca, dan scalable.
+
+### Menjalankan Test
+
+-   Menjalankan semua test: `php artisan test`
+-   Menjalankan file tertentu: `php artisan test tests/Feature/NamaTest.php`
+
+### Membuat Test Baru
+
+Gunakan artisan command untuk membuat file test:
+
+```bash
+# Membuat Feature Test (Rekomendasi)
+php artisan pest:test Feature/NamaFiturTest
+
+# Membuat Unit Test (Untuk logic murni)
+php artisan pest:test Unit/NamaLogicTest --unit
+```
+
+### Contoh Feature Test (Best Practice)
+
+Gunakan pola **Arrange-Act-Assert** agar test mudah dibaca:
+
+```php
+<?php
+
+use App\Models\User;
+use App\Models\Role;
+
+test('admin can access product index', function () {
+    // 1. Arrange: Siapkan data
+    $role = Role::firstOrCreate(['slug' => 'admin'], ['name' => 'Admin']);
+    $user = User::factory()->create(['role_id' => $role->id]);
+
+    // 2. Act: Lakukan tindakan
+    $response = $this->actingAs($user)->get(route('products.index'));
+
+    // 3. Assert: Verifikasi hasil
+    $response->assertStatus(200);
+});
+```
+
+### Tips Testing Scalable:
+
+1. **Bypass Super Admin**: User dengan role `super-admin` memiliki akses ke semua fitur tanpa perlu setting permission satu per satu di test.
+2. **Gunakan `firstOrCreate`**: Untuk data master (Role, Menu), gunakan `firstOrCreate` agar menghindari error _Unique Constraint_ jika data sudah ada.
+3. **Database in Memory**: Sistem secara otomatis menggunakan SQLite `:memory:` saat testing agar sangat cepat.
+4. **Service Testing**: Jika fitur memiliki logic rumit, buatlah test khusus untuk Service Class tersebut di `tests/Unit`.

@@ -141,7 +141,9 @@ class ViewConfigHelper
       'footerFixed' => $data['footerFixed'],
       'menuFlipped' => $data['menuFlipped'],
       'customizerControls' => $data['customizerControls'],
-      'themeColor' => isset($_COOKIE['themeColor']) ? $_COOKIE['themeColor'] : (\App\Models\Setting::where('key', 'theme_color')->value('value') ?? '#666cff'),
+      'themeColor' => isset($_COOKIE['themeColor']) ? $_COOKIE['themeColor'] : (
+        rescue(fn() => \App\Models\Setting::where('key', 'theme_color')->value('value'), null, false) ?? $data['myPrimaryColor']
+      ),
     ];
 
     // sidebar Collapsed

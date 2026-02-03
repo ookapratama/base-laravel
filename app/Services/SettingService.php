@@ -32,7 +32,14 @@ class SettingService
     public function getAllCached()
     {
         return Cache::rememberForever($this->cacheKey, function () {
-            return Setting::pluck('value', 'key')->toArray();
+            try {
+                if (!\Illuminate\Support\Facades\Schema::hasTable('settings')) {
+                    return [];
+                }
+                return Setting::pluck('value', 'key')->toArray();
+            } catch (\Exception $e) {
+                return [];
+            }
         });
     }
 

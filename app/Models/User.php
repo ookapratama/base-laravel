@@ -58,6 +58,9 @@ class User extends Authenticatable
     {
         if (!$this->role) return false;
 
+        // Super Admin bypass
+        if ($this->role->slug === 'super-admin') return true;
+
         $menu = $this->role->menus()->where('menus.slug', $menuSlug)->first();
         if (!$menu) return false;
 
