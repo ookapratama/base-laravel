@@ -26,6 +26,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('permission', [\App\Http\Controllers\PermissionController::class, 'update'])->name('permission.update')->middleware('check.permission:permission.index');
 
     // Products CRUD routes
+    Route::get('products/export/excel', [ProductsController::class, 'exportExcel'])->name('products.export.excel')->middleware('check.permission:products.index');
+    Route::get('products/export/pdf', [ProductsController::class, 'exportPdf'])->name('products.export.pdf')->middleware('check.permission:products.index');
+    Route::post('products/import/excel', [ProductsController::class, 'importExcel'])->name('products.import.excel')->middleware('check.permission:products.index');
     Route::resource('products', ProductsController::class)->middleware('check.permission:products.index');
 
     // Activity Log

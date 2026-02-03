@@ -16,13 +16,16 @@ class CheckPermission
     public function handle(Request $request, Closure $next, string $menuSlug): Response
     {
         $actionMap = [
-            'index'   => 'read',
-            'show'    => 'read',
-            'create'  => 'create',
-            'store'   => 'create',
-            'edit'    => 'update',
-            'update'  => 'update',
-            'destroy' => 'delete',
+            'index'        => 'read',
+            'show'         => 'read',
+            'create'       => 'create',
+            'store'        => 'create',
+            'edit'         => 'update',
+            'update'       => 'update',
+            'destroy'      => 'delete',
+            'exportExcel'  => 'read',
+            'exportPdf'    => 'read',
+            'importExcel'  => 'create',
         ];
 
         $routeName = $request->route()->getName();

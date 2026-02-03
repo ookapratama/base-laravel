@@ -7,6 +7,10 @@ use App\Http\Requests\ProductsRequest;
 use Illuminate\Http\Request;
 
 use App\Services\FileUploadService;
+use App\Exports\ProductsExport;
+use App\Imports\ProductsImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProductsController extends Controller
 {
@@ -118,5 +122,41 @@ class ProductsController extends Controller
 
         return redirect()->route('products.index')
             ->with('success', 'Produk berhasil dihapus!');
+    }
+
+    /**
+     * Export products to Excel
+     */
+    public function exportExcel()
+    {
+        return Excel::download(new ProductsExport, 'daftar-produk-' . date('Y-m-d') . '.xlsx');
+    }
+
+    /**
+     * Export products to PDF
+     */
+    public function exportPdf()
+    {
+        $products = $this->service->all();
+        $pdf = Pdf::loadView('pages.products.pdf', compact('products'));
+        
+        return $pdf->download('daftar-produk-' . date('Y-m-d') . '.pdf');
+    }
+
+    /**
+     * Import products from Excel
+     */
+    public function importExcel(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv'
+        ]);
+
+        try {
+            Excel::import(new ProductsImport, $request->file('file'));
+            return redirect()->back()->with('success', 'Data produk berhasil diimpor!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengimpor data: ' . $e->getMessage());
+        }
     }
 }
