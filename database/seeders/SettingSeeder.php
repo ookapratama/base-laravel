@@ -26,6 +26,13 @@ class SettingSeeder extends Seeder
                 'label' => 'Deskripsi Aplikasi',
             ],
             [
+                'key' => 'app_keywords',
+                'value' => 'laravel, base template, premium dashboard',
+                'group' => 'general',
+                'type' => 'text',
+                'label' => 'Kata Kunci SEO',
+            ],
+            [
                 'key' => 'app_logo',
                 'value' => null,
                 'group' => 'general',

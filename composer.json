@@ -31,7 +31,8 @@
     },
     "autoload": {
         "files": [
-            "app/Helpers/ViewConfigHelper.php"
+            "app/Helpers/ViewConfigHelper.php",
+            "app/Helpers/SettingHelper.php"
         ],
         "psr-4": {
             "App\\": "app/",

@@ -26,6 +26,7 @@ class CheckPermission
             'exportExcel'  => 'read',
             'exportPdf'    => 'read',
             'importExcel'  => 'create',
+            'clearCache'   => 'update',
         ];
 
         $routeName = $request->route()->getName();

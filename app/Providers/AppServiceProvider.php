@@ -55,6 +55,11 @@ class AppServiceProvider extends ServiceProvider
             class_alias(ViewConfigHelper::class, 'Helper');
         }
 
+        // Blade directive for settings
+        \Illuminate\Support\Facades\Blade::directive('setting', function ($expression) {
+            return "<?php echo get_setting($expression); ?>";
+        });
+
         // Share menu data with all views
         View::composer('*', function ($view) {
             $menus = collect();
@@ -97,6 +102,7 @@ class AppServiceProvider extends ServiceProvider
             'variables' => [
                 'templateName' => $settingService->get('app_name', 'Base Laravel'),
                 'templateDescription' => $settingService->get('app_description', 'Base project builder'),
+                'templateKeyword' => $settingService->get('app_keywords', 'laravel, dashboard'),
                 'templateLogo' => $settingService->get('app_logo'),
                 'templateFavicon' => $settingService->get('app_favicon'),
                 'templateVersion' => '1.0.0',

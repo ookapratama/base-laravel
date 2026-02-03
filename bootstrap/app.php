@@ -15,6 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'check.permission' => \App\Http\Middleware\CheckPermission::class,
+            'maintenance' => \App\Http\Middleware\CheckMaintenanceMode::class,
+        ]);
+
+        $middleware->appendToGroup('web', [
+            \App\Http\Middleware\CheckMaintenanceMode::class,
         ]);
 
         $middleware->redirectTo(

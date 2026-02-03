@@ -39,6 +39,7 @@ Route::middleware(['auth'])->group(function () {
     // Website Settings
     Route::get('settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings.index')->middleware('check.permission:settings.index');
     Route::post('settings', [\App\Http\Controllers\SettingController::class, 'update'])->name('settings.update')->middleware('check.permission:settings.index');
+    Route::get('settings/clear-cache', [\App\Http\Controllers\SettingController::class, 'clearCache'])->name('settings.clear-cache')->middleware('check.permission:settings.index');
 
     // Personal Profile
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');

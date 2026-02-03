@@ -45,4 +45,13 @@ class SettingController extends Controller
 
         return redirect()->back()->with('success', 'Pengaturan berhasil diperbarui!');
     }
+
+    /**
+     * Clear settings cache
+     */
+    public function clearCache()
+    {
+        $this->service->clearCache();
+        return redirect()->back()->with('success', 'Cache pengaturan berhasil dibersihkan!');
+    }
 }

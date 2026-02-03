@@ -116,6 +116,8 @@
 
                      <div class="mt-8 border-top pt-4">
                         <button type="submit" class="btn btn-primary me-2">Simpan Perubahan</button>
+                        <a href="{{ route('settings.clear-cache') }}" class="btn btn-outline-warning me-2">Bersihkan
+                           Cache</a>
                         <button type="reset" class="btn btn-outline-secondary">Reset</button>
                      </div>
                   </form>
