@@ -10,6 +10,8 @@ use App\Http\Controllers\ProductsController;
 // Auth Routes
 Route::get('login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
+Route::get('register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('register', [AuthController::class, 'register']);
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
@@ -49,5 +51,9 @@ Route::middleware(['auth'])->group(function () {
     // Impersonate Features
     Route::get('impersonate/start/{id}', [\App\Http\Controllers\ImpersonateController::class, 'start'])->name('impersonate.start');
     Route::get('impersonate/stop', [\App\Http\Controllers\ImpersonateController::class, 'stop'])->name('impersonate.stop');
+
+    // System Status & Backup
+    Route::get('system/health', [\App\Http\Controllers\SystemController::class, 'health'])->name('system.health')->middleware('check.permission:system.health');
+    Route::get('system/backup', [\App\Http\Controllers\SystemController::class, 'backup'])->name('system.backup')->middleware('check.permission:system.health');
 });
 

@@ -15,6 +15,7 @@ class RoleAndMenuSeeder extends Seeder
             ['name' => 'Super Admin', 'slug' => 'super-admin'],
             ['name' => 'Admin', 'slug' => 'admin'],
             ['name' => 'User', 'slug' => 'user'],
+            ['name' => 'Visitor', 'slug' => 'visitor'],
         ];
 
         $roleIds = [];
@@ -97,6 +98,21 @@ class RoleAndMenuSeeder extends Seeder
             if (in_array($m['slug'], ['dashboard'])) {
                 DB::table('role_menu')->updateOrInsert(
                     ['role_id' => $roleIds['user'], 'menu_id' => $dbMenu->id],
+                    [
+                        'can_create' => false,
+                        'can_read' => true,
+                        'can_update' => false,
+                        'can_delete' => false,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                );
+            }
+
+            // Assign some to Visitor (Full view of public features but Read Only)
+            if (in_array($m['slug'], ['dashboard', 'products.index'])) {
+                DB::table('role_menu')->updateOrInsert(
+                    ['role_id' => $roleIds['visitor'], 'menu_id' => $dbMenu->id],
                     [
                         'can_create' => false,
                         'can_read' => true,

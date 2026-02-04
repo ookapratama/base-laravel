@@ -21,7 +21,7 @@ class ExtraMenuSeeder extends Seeder
             ]
         );
 
-        // Add Profile Menu (if not exists)
+        // Add Profile Menu
         $profileMenu = Menu::updateOrCreate(
             ['slug' => 'profile.index'],
             [
@@ -32,12 +32,24 @@ class ExtraMenuSeeder extends Seeder
             ]
         );
 
+        // Add System Health Menu
+        $systemHealthMenu = Menu::updateOrCreate(
+            ['slug' => 'system.health'],
+            [
+                'name' => 'Status & Backup',
+                'icon' => 'ri-pulse-line',
+                'path' => 'system/health',
+                'order_no' => 100,
+            ]
+        );
+
         // Assign to Super Admin and Admin
         $roles = Role::whereIn('slug', ['super-admin', 'admin'])->get();
         foreach ($roles as $role) {
             $role->menus()->syncWithoutDetaching([
                 $settingsMenu->id => ['can_create' => true, 'can_read' => true, 'can_update' => true, 'can_delete' => true],
                 $profileMenu->id => ['can_create' => true, 'can_read' => true, 'can_update' => true, 'can_delete' => true],
+                $systemHealthMenu->id => ['can_create' => true, 'can_read' => true, 'can_update' => true, 'can_delete' => true],
             ]);
         }
     }

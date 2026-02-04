@@ -96,7 +96,7 @@
                   @if (get_setting('allow_registration', '1') === '1')
                      <p class="text-center">
                         <span>New on our platform?</span>
-                        <a href="javascript:void(0);">
+                        <a href="{{ route('register') }}">
                            <span>Create an account</span>
                         </a>
                      </p>
