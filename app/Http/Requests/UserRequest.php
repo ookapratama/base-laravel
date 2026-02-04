@@ -12,6 +12,7 @@ class UserRequest extends BaseRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'role_id' => 'required|exists:roles,id',
+            'avatar' => 'nullable|image|max:2048',
         ];
 
         // Password required only on create

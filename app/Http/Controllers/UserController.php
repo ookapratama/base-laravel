@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Services\UserService;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
+use App\Services\FileUploadService;
 
 class UserController extends Controller
 {
     public function __construct(
         protected UserService $service,
-        protected \App\Interfaces\Repositories\RoleRepositoryInterface $roleRepository
+        protected \App\Interfaces\Repositories\RoleRepositoryInterface $roleRepository,
+        protected FileUploadService $fileUploadService
     ) {}
 
     /**
@@ -37,6 +39,12 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $data = $request->validated();
+        
+        if ($request->hasFile('avatar')) {
+            $media = $this->fileUploadService->upload($request->file('avatar'), 'avatars');
+            $data['avatar'] = $media->path;
+        }
+
         $this->service->store($data);
 
         return redirect()->route('user.index')
@@ -68,6 +76,12 @@ class UserController extends Controller
     public function update(UserRequest $request, int $id)
     {
         $data = $request->validated();
+
+        if ($request->hasFile('avatar')) {
+            $media = $this->fileUploadService->upload($request->file('avatar'), 'avatars');
+            $data['avatar'] = $media->path;
+        }
+
         $this->service->update($id, $data);
 
         return redirect()->route('user.index')

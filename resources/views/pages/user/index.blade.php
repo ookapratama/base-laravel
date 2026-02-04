@@ -77,9 +77,14 @@
                            <td>
                               <div class="d-flex align-items-center">
                                  <div class="avatar avatar-sm me-2">
-                                    <span class="avatar-initial rounded-circle bg-label-primary">
-                                       {{ strtoupper(substr($user->name, 0, 2)) }}
-                                    </span>
+                                    @if ($user->avatar)
+                                       <img src="{{ asset('storage/' . $user->avatar) }}" alt="Avatar"
+                                          class="rounded-circle">
+                                    @else
+                                       <span class="avatar-initial rounded-circle bg-label-primary">
+                                          {{ strtoupper(substr($user->name, 0, 2)) }}
+                                       </span>
+                                    @endif
                                  </div>
                                  <span class="fw-medium">{{ $user->name }}</span>
                               </div>
