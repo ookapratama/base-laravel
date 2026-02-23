@@ -10,6 +10,9 @@ We have provided a custom command to speed up the creation of new feature boiler
 
 ```bash
 php artisan make:feature FeatureName
+
+# Atau dengan sub-folder (contoh: Admin/Product)
+php artisan make:feature SubFolder/FeatureName
 ```
 
 **Output of this command:**
@@ -21,7 +24,10 @@ php artisan make:feature FeatureName
 -   `app/Services/FeatureNameService.php`
 -   `app/Http/Controllers/FeatureNameController.php`
 -   `app/Http/Requests/FeatureNameRequest.php`
--   `resources/views/pages/feature-name/` (Empty view folder)
+-   `resources/views/pages/feature-name/index.blade.php` (List table with AJAX delete)
+-   `resources/views/pages/feature-name/create.blade.php` (Creation form)
+-   `resources/views/pages/feature-name/edit.blade.php` (Editing form)
+-   `resources/views/pages/feature-name/show.blade.php` (Detail view)
 
 ---
 
