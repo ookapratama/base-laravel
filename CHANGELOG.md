@@ -5,17 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 2026-01-23
+## [Unreleased]
+
+## [1.3.0] - 2026-02-05
 
 ### Added
 
--   **User Impersonation**: Ability for Super Admin to login as other users for troubleshooting (`ImpersonateService`, `ImpersonateController`).
--   **Seeders**: Added `SettingSeeder` and `ExtraMenuSeeder` for rapid deployment and default configurations.
+-   **User Avatar**: Implemented support for uploading and displaying user avatars across profile and management views.
+-   **System Health**: Added system health and maintenance status endpoints (`SystemController`).
+-   **Enhanced RBAC**: Added new 'Visitor' role for restricted access.
+-   **Audit Documentation**: Completed comprehensive technical audit for PHP 7.4 compatibility.
 
-### Fixed
+### Changed
 
--   **UI & Filters**: Fixed pagination styling (forced Bootstrap 5) and corrected Activity Log date range filtering logic to cover the full end-day.
--   **Layout**: Adjusted Impersonation Banner `z-index` to prevent overlapping with navbar dropdowns.
+-   **Framework Upgrade**: Upgraded to Laravel 12.x and PHP 8.2+ compatibility.
+-   **Activity Log**: Refined log display and statistics.
 
 ## [1.2.0] - 2026-01-20
 

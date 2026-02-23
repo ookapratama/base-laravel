@@ -10,10 +10,12 @@ A modern Laravel starter template designed with **Service Repository Pattern**, 
 -   🛡️ **Granular Role & Permission** - Robust RBAC (Role Based Access Control) down to per-menu actions (Create, Read, Update, Delete).
 -   🕵️ **Activity Log (Audit Trail)** - Automatically track every data change with Before/After snapshots via Trait.
 -   ⚙️ **Global Settings & Branding** - Manage App Name, Logo, Favicon, and System settings from the UI.
--   👤 **Personal Profile Management** - Dedicated page for users to manage info and security.
+-   👤 **Personal Profile & Avatar** - Dedicated page for users to manage info, passwords, and profile pictures.
 -   📊 **Role-Based Dashboards** - Specific views tailored for Administrators and regular Users.
--   📁 **File Upload Manager** - Centralized file handling with auto-resize and optimization.
+-   �️‍♂️ **User Impersonation** - Super Admin can login as any user to troubleshoot issues without needing their password.
+-   �📁 **File Upload Manager** - Centralized file handling with auto-resize and optimization.
 -   🎨 **Premium Admin UI** - Powered by Sneat Bootstrap 5 with Dark/Light mode support.
+-   🏥 **System Health Monitoring** - Built-in endpoints to monitor application and database status.
 -   🤖 **Custom Code Generator** - Scaffold complete CRUD modules with a single command.
 -   📖 **API Documentation** - Interactive Swagger (OpenAPI) docs out of the box.
 -   🔔 **Global Alert System** - Pre-configured SweetAlert2 & Toastr integration.
@@ -30,6 +32,7 @@ For in-depth explanations of the features and how to use them, please refer to t
 | 🛠 **[DEVELOPMENT_GUIDE.md](DEVELOPMENT_GUIDE.md)**   | **CODING STANDARDS** and how to add new modules.      |
 | 🕵️ **[ACTIVITY_LOG_GUIDE.md](ACTIVITY_LOG_GUIDE.md)** | Detailed audit trail & user monitoring documentation. |
 | 🔔 **[ALERT_SYSTEM_GUIDE.md](ALERT_SYSTEM_GUIDE.md)** | How to use the global SweetAlert & Toastr system.     |
+| 📊 **[AUDIT_REPORT.md](AUDIT_REPORT.md)**             | Technical Audit & PHP 7.4 Compatibility Analysis.     |
 
 ---
 
@@ -84,7 +87,7 @@ This scaffolding includes Repository, Service, Controller, Request, and View fol
 -   **Frontend**: Bootstrap 5, Vite, jQuery (Sneat Template)
 -   **Database**: MySQL / PostgreSQL / SQLite
 -   **API Docs**: Swagger (L5-Swagger)
--   **File Storage**: Intervention Image v3
+-   **System**: PHP 8.2+ Type Safety & Modern Features
 
 ---
 

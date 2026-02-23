@@ -15,8 +15,10 @@ This documentation explains the main features available in this template and how
 7. [Custom Artisan Generator](#7-custom-artisan-generator)
 8. [API Documentation (Swagger)](#8-api-documentation-swagger)
 9. [Global Settings Manager](#9-global-settings-manager)
-10. [User Profile Management](#10-user-profile-management)
+10. [User Profile & Avatar](#10-user-profile-avatar)
 11. [Role-Based Dashboards](#11-role-based-dashboards)
+12. [User Impersonation](#12-user-impersonation)
+13. [System Health & Monitoring](#13-system-health-monitoring)
 
 ---
 
@@ -147,13 +149,14 @@ Centralized control for website branding and system behavior.
 
 ---
 
-## 10. User Profile Management
+## 10. User Profile & Avatar
 
 A self-service portal for users to manage their identity and security.
 
 -   **Personal Info**: Users can update Name and Email.
+-   **Avatar Management**: Users can upload profile pictures, which are automatically optimized and resized.
 -   **Account Security**: Secure password change mechanism.
--   **Audit Trail**: Changes are automatically logged.
+-   **Audit Trail**: All profile changes are automatically logged for security monitoring.
 
 ---
 
@@ -167,9 +170,30 @@ Optimized experience depending on the user's role.
 
 ---
 
+## 12. User Impersonation
+
+Allows Super Admins to log in as another user for troubleshooting and support purposes.
+
+-   **Quick Access**: Start impersonation directly from the User Management list.
+-   **Visibility**: A clear banner is displayed during impersonation to prevent confusion.
+-   **Security**: Restricted solely to Super Admin roles; original admin session is preserved.
+-   **Auditing**: Every impersonation start and stop activity is recorded in the activity log.
+
+---
+
+## 13. System Health & Monitoring
+
+Built-in tools to ensure the application is running smoothly.
+
+-   **Health Check**: Endpoint to verify database connectivity, storage permissions, and cache status.
+-   **Maintenance Mode**: Toggle maintenance mode with a custom bypass key from the settings menu.
+
+---
+
 ## 🛠️ Main Tech Stack
 
 -   **Laravel 12.x**
+-   **PHP 8.2+ (Modern Typed Syntax)**
 -   **Bootstrap 5 (Sneat Template)**
 -   **Intervention Image v3**
 -   **SweetAlert2 & Toastr**
