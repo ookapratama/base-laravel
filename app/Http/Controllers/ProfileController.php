@@ -25,17 +25,11 @@ class ProfileController extends Controller
     /**
      * Update profile info
      */
-    public function update(Request $request)
+    public function update(\App\Http\Requests\ProfileRequest $request)
     {
         $user = auth()->user();
         
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
-            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
-        ]);
-
-        $data = $request->only('name', 'email');
+        $data = $request->validated();
 
         if ($request->hasFile('avatar')) {
             $media = $this->fileUploadService->upload($request->file('avatar'), 'avatars', options: [
