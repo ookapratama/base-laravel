@@ -103,7 +103,7 @@ If you find this project useful, please consider supporting its development. You
 
 For Indonesian supporters:
 
--   **Trakteer**: [trakteer.id/ookapratama](https://trakteer.id/ookapratama)
+-   **Trakteer**: [trakteer.id/ookapratama](https://trakteer.id/ftopxczkt5voq7rg0zyn/gift)
 
 ---
 
