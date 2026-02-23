@@ -121,10 +121,18 @@ Sidebar navigation menu automatically appears based on the logged-in user's acce
 
 ## 7. Custom Artisan Generator
 
-Speed up the creation of new features without manual file copying.
+Speed up the creation of new features without manual file copying. The `make:feature` command generates all layers of the architecture in seconds.
+
+-   **Logic Layer**: Repository, Service, Controller, and Form Request.
+-   **View Layer**: Automatically creates 4 Blade views (`index`, `create`, `edit`, `show`) with ready-to-use table and form templates.
+-   **Structure Support**: Supports nested directories/sub-folders (e.g., `Admin/Product`) with automatic namespace adjustment.
 
 ```bash
+# Basic usage
 php artisan make:feature Product
+
+# With subdirectory
+php artisan make:feature Admin/Post
 ```
 
 ---

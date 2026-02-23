@@ -32,7 +32,6 @@ For in-depth explanations of the features and how to use them, please refer to t
 | 🛠 **[DEVELOPMENT_GUIDE.md](DEVELOPMENT_GUIDE.md)**   | **CODING STANDARDS** and how to add new modules.      |
 | 🕵️ **[ACTIVITY_LOG_GUIDE.md](ACTIVITY_LOG_GUIDE.md)** | Detailed audit trail & user monitoring documentation. |
 | 🔔 **[ALERT_SYSTEM_GUIDE.md](ALERT_SYSTEM_GUIDE.md)** | How to use the global SweetAlert & Toastr system.     |
-| 📊 **[AUDIT_REPORT.md](AUDIT_REPORT.md)**             | Technical Audit & PHP 7.4 Compatibility Analysis.     |
 
 ---
 
@@ -74,10 +73,14 @@ composer dev
 Want to create a new module (e.g., Product)? Use our custom generator:
 
 ```bash
+# Basic usage
 php artisan make:feature Product
+
+# With subdirectory support
+php artisan make:feature Admin/User
 ```
 
-This scaffolding includes Repository, Service, Controller, Request, and View folder. See **[DEVELOPMENT_GUIDE.md](DEVELOPMENT_GUIDE.md)** for details.
+This scaffolding includes Repository, Service, Controller, Request, and **full CRUD Blade views**. See **[DEVELOPMENT_GUIDE.md](DEVELOPMENT_GUIDE.md)** for details.
 
 ---
 

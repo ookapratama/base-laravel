@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-02-23
+
+### Added
+
+-   **Enhanced Code Generator**: `make:feature` now automatically generates full Blade views (Index, Create, Edit, Show) with Sneat-compatible templates.
+-   **Namespace/Directory Support**: `make:feature` now supports subdirectories (e.g., `php artisan make:feature Admin/Post`), automatically handling folders and namespaces.
+
+### Changed
+
+-   **Profile Validation**: Refactored profile update logic to use a dedicated `ProfileRequest`.
+-   **Development Guide**: Updated with instructions for the new generator capabilities.
+
+### Fixed
+
+-   **Profile Password**: Fixed issue where password was incorrectly required during profile info updates.
+
 ## [1.3.0] - 2026-02-05
 
 ### Added
