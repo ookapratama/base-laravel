@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\UserService;
 use App\Http\Requests\UserRequest;
-use Illuminate\Http\Request;
 use App\Services\FileUploadService;
+use App\Services\UserService;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -21,6 +21,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = $this->service->all();
+
         return view('pages.user.index', compact('users'));
     }
 
@@ -30,6 +31,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = $this->roleRepository->all();
+
         return view('pages.user.create', compact('roles'));
     }
 
@@ -39,7 +41,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $data = $request->validated();
-        
+
         if ($request->hasFile('avatar')) {
             $media = $this->fileUploadService->upload($request->file('avatar'), 'avatars');
             $data['avatar'] = $media->path;
@@ -57,6 +59,7 @@ class UserController extends Controller
     public function show(int $id)
     {
         $user = $this->service->find($id);
+
         return view('pages.user.show', compact('user'));
     }
 
@@ -67,6 +70,7 @@ class UserController extends Controller
     {
         $user = $this->service->find($id);
         $roles = $this->roleRepository->all();
+
         return view('pages.user.edit', compact('user', 'roles'));
     }
 
@@ -78,7 +82,8 @@ class UserController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('avatar')) {
-            $media = $this->fileUploadService->upload($request->file('avatar'), 'avatars');
+            $user = $this->service->find($id);
+            $media = $this->fileUploadService->replace($user->avatar, $request->file('avatar'), 'avatars');
             $data['avatar'] = $media->path;
         }
 

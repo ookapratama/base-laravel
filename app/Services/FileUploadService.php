@@ -6,8 +6,8 @@ use App\Models\Media;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class FileUploadService
 {
@@ -15,17 +15,15 @@ class FileUploadService
 
     public function __construct()
     {
-        $this->imageManager = new ImageManager(new Driver());
+        $this->imageManager = new ImageManager(new Driver);
     }
 
     /**
      * Upload a file and record it in database
      *
-     * @param UploadedFile $file
-     * @param string $folder Folder in disk (e.g. 'avatars')
-     * @param string $disk Disk name (default: 'public')
-     * @param array $options Extra options (resize_width, resize_height, etc)
-     * @return Media
+     * @param  string  $folder  Folder in disk (e.g. 'avatars')
+     * @param  string  $disk  Disk name (default: 'public')
+     * @param  array  $options  Extra options (resize_width, resize_height, etc)
      */
     public function upload(UploadedFile $file, string $folder = 'uploads', string $disk = 'public', array $options = []): Media
     {
@@ -33,10 +31,14 @@ class FileUploadService
         $extension = $file->getClientOriginalExtension();
         $filename = $this->generateFilename($originalName, $extension);
         $mimeType = $file->getMimeType();
+        $size = $file->getSize();
         $path = "{$folder}/{$filename}";
 
+        // Read meta BEFORE the file is moved (putFileAs invalidates the temp path)
+        $meta = $this->getMeta($file, $options);
+
         // Process Image if needed
-        if (str_starts_with($mimeType, 'image/') && !empty($options)) {
+        if (str_starts_with($mimeType, 'image/') && ! empty($options)) {
             $this->processImage($file, $path, $disk, $options);
         } else {
             // Standard upload
@@ -49,25 +51,45 @@ class FileUploadService
             'filename' => $filename,
             'original_name' => $originalName,
             'mime_type' => $mimeType,
-            'size' => $file->getSize(),
+            'size' => $size,
             'disk' => $disk,
             'path' => $path,
             'collection' => $options['collection'] ?? $folder,
-            'meta' => $this->getMeta($file, $options),
+            'meta' => $meta,
         ]);
     }
 
     /**
-     * Delete media and its file
+     * Replace an existing upload: delete the previous file + its Media row,
+     * then upload the new file. Use this on update paths to avoid orphans.
      *
-     * @param Media $media
-     * @return bool
+     * @param  string|null  $oldPath  Path of the file currently stored (e.g. users.avatar)
+     */
+    public function replace(?string $oldPath, UploadedFile $file, string $folder = 'uploads', string $disk = 'public', array $options = []): Media
+    {
+        if ($oldPath) {
+            $oldMedia = Media::where('path', $oldPath)->first();
+
+            if ($oldMedia) {
+                $this->delete($oldMedia);
+            } elseif (Storage::disk($disk)->exists($oldPath)) {
+                // No Media row, but a stray file exists — clean it up anyway
+                Storage::disk($disk)->delete($oldPath);
+            }
+        }
+
+        return $this->upload($file, $folder, $disk, $options);
+    }
+
+    /**
+     * Delete media and its file
      */
     public function delete(Media $media): bool
     {
         if (Storage::disk($media->disk)->exists($media->path)) {
             Storage::disk($media->disk)->delete($media->path);
         }
+
         return $media->delete();
     }
 
@@ -77,7 +99,8 @@ class FileUploadService
     protected function generateFilename(string $originalName, string $extension): string
     {
         $name = pathinfo($originalName, PATHINFO_FILENAME);
-        return Str::slug($name) . '-' . time() . '.' . $extension;
+
+        return Str::slug($name).'-'.time().'.'.$extension;
     }
 
     /**
@@ -91,7 +114,7 @@ class FileUploadService
         if (isset($options['width']) || isset($options['height'])) {
             $width = $options['width'] ?? null;
             $height = $options['height'] ?? null;
-            
+
             if (isset($options['crop']) && $options['crop']) {
                 $image->cover($width, $height);
             } else {
@@ -111,7 +134,7 @@ class FileUploadService
     protected function getMeta(UploadedFile $file, array $options): array
     {
         $meta = $options['meta'] ?? [];
-        
+
         if (str_starts_with($file->getMimeType(), 'image/')) {
             try {
                 $size = getimagesize($file);
@@ -121,7 +144,7 @@ class FileUploadService
                 // Ignore if not a valid image
             }
         }
-        
+
         return $meta;
     }
 }

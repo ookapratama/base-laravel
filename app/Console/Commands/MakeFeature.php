@@ -23,18 +23,22 @@ class MakeFeature extends Command
     protected $description = 'Generate CRUD structure (Controller, Service, Repository, Request)';
 
     protected Filesystem $files;
+
     protected string $feature;
+
     protected string $subDir = '';
+
     protected string $namespaceSuffix = '';
+
     protected string $pathSuffix = '';
 
+    protected string $slug = '';
 
     public function __construct(Filesystem $files)
     {
         parent::__construct();
         $this->files = $files;
     }
-
 
     /**
      * Execute the console command.
@@ -43,14 +47,17 @@ class MakeFeature extends Command
     {
         $input = str_replace('\\', '/', $this->argument('name'));
         $segments = explode('/', $input);
-        
+
         $this->feature = Str::studly(array_pop($segments));
-        
-        if (!empty($segments)) {
-            $this->subDir = implode('/', array_map(fn($s) => Str::studly($s), $segments));
-            $this->namespaceSuffix = '\\' . str_replace('/', '\\', $this->subDir);
-            $this->pathSuffix = '/' . $this->subDir;
+
+        if (! empty($segments)) {
+            $this->subDir = implode('/', array_map(fn ($s) => Str::studly($s), $segments));
+            $this->namespaceSuffix = '\\'.str_replace('/', '\\', $this->subDir);
+            $this->pathSuffix = '/'.$this->subDir;
         }
+
+        $subDirDot = ! empty($this->subDir) ? str_replace('/', '.', Str::lower($this->subDir)).'.' : '';
+        $this->slug = $subDirDot.Str::kebab($this->feature);
 
         $this->makeDirectories();
         $this->makeRepository();
@@ -59,9 +66,11 @@ class MakeFeature extends Command
         $this->makeRequest();
         $this->makeViews();
 
+        $this->registerBinding();
+        $this->registerRoute();
+
         $this->newLine();
         $this->info("✅ CRUD {$this->feature} generated successfully!");
-        $this->showBindingHint();
     }
 
     /**
@@ -72,8 +81,8 @@ class MakeFeature extends Command
     protected function makeDirectories()
     {
         $viewFolder = Str::snake($this->feature, '-');
-        $viewSubPath = !empty($this->subDir) ? Str::lower($this->subDir) . '/' : '';
-        
+        $viewSubPath = ! empty($this->subDir) ? Str::lower($this->subDir).'/' : '';
+
         $dirs = [
             app_path("Repositories{$this->pathSuffix}"),
             app_path("Services{$this->pathSuffix}"),
@@ -98,7 +107,7 @@ class MakeFeature extends Command
     protected function makeRepository(): void
     {
         $repositoryPath = app_path("Repositories{$this->pathSuffix}/{$this->feature}Repository.php");
-        $interfacePath  = app_path("Interfaces/Repositories{$this->pathSuffix}/{$this->feature}RepositoryInterface.php");
+        $interfacePath = app_path("Interfaces/Repositories{$this->pathSuffix}/{$this->feature}RepositoryInterface.php");
 
         if (! $this->files->exists($interfacePath)) {
             $this->files->put($interfacePath, <<<PHP
@@ -106,7 +115,9 @@ class MakeFeature extends Command
 
 namespace App\Interfaces\Repositories{$this->namespaceSuffix};
 
-interface {$this->feature}RepositoryInterface
+use App\Interfaces\Repositories\BaseRepositoryInterface;
+
+interface {$this->feature}RepositoryInterface extends BaseRepositoryInterface
 {
 }
 PHP);
@@ -142,7 +153,9 @@ PHP);
     {
         $servicePath = app_path("Services{$this->pathSuffix}/{$this->feature}Service.php");
 
-        if ($this->files->exists($servicePath)) return;
+        if ($this->files->exists($servicePath)) {
+            return;
+        }
 
         $this->files->put($servicePath, <<<PHP
 <?php
@@ -171,7 +184,9 @@ PHP);
     {
         $requestPath = app_path("Http/Requests{$this->pathSuffix}/{$this->feature}Request.php");
 
-        if ($this->files->exists($requestPath)) return;
+        if ($this->files->exists($requestPath)) {
+            return;
+        }
 
         $this->files->put($requestPath, <<<PHP
 <?php
@@ -200,14 +215,16 @@ PHP);
     protected function makeController(): void
     {
         $controllerPath = app_path("Http/Controllers{$this->pathSuffix}/{$this->feature}Controller.php");
-        
-        $subDirKebab = !empty($this->subDir) ? str_replace('/', '.', Str::lower($this->subDir)) . '.' : '';
-        $slug = $subDirKebab . Str::kebab($this->feature);
-        
-        $viewSubPath = !empty($this->subDir) ? str_replace('/', '.', Str::lower($this->subDir)) . '.' : '';
-        $viewPath = $viewSubPath . Str::snake($this->feature, '-');
 
-        if ($this->files->exists($controllerPath)) return;
+        $subDirKebab = ! empty($this->subDir) ? str_replace('/', '.', Str::lower($this->subDir)).'.' : '';
+        $slug = $subDirKebab.Str::kebab($this->feature);
+
+        $viewSubPath = ! empty($this->subDir) ? str_replace('/', '.', Str::lower($this->subDir)).'.' : '';
+        $viewPath = $viewSubPath.Str::snake($this->feature, '-');
+
+        if ($this->files->exists($controllerPath)) {
+            return;
+        }
 
         $this->files->put($controllerPath, <<<PHP
 <?php
@@ -257,7 +274,7 @@ class {$this->feature}Controller extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(\$id)
+    public function show(int \$id)
     {
         \$data = \$this->service->find(\$id);
         return view('pages.{$viewPath}.show', compact('data'));
@@ -266,7 +283,7 @@ class {$this->feature}Controller extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(\$id)
+    public function edit(int \$id)
     {
         \$data = \$this->service->find(\$id);
         return view('pages.{$viewPath}.edit', compact('data'));
@@ -275,7 +292,7 @@ class {$this->feature}Controller extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update({$this->feature}Request \$request, \$id)
+    public function update({$this->feature}Request \$request, int \$id)
     {
         \$data = \$request->validated();
         \$this->service->update(\$id, \$data);
@@ -287,18 +304,19 @@ class {$this->feature}Controller extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(\$id)
+    public function destroy(int \$id)
     {
         \$this->service->delete(\$id);
+
+        if (request()->wantsJson()) {
+            return \\App\\Helpers\\ResponseHelper::success(null, 'Data berhasil dihapus!');
+        }
 
         return redirect()->route('{$slug}.index')
             ->with('success', 'Data berhasil dihapus!');
     }
 }
 PHP);
-
-        $this->info("💡 Jangan lupa tambahkan route di routes/web.php:");
-        $this->line("   Route::resource('{$slug}', \\App\\Http\\Controllers{$this->namespaceSuffix}\\{$this->feature}Controller::class);");
     }
 
     /**
@@ -309,35 +327,35 @@ PHP);
     protected function makeViews(): void
     {
         $viewFolder = Str::snake($this->feature, '-');
-        $viewSubDir = !empty($this->subDir) ? Str::lower($this->subDir) . '/' : '';
-        
-        $subDirDot = !empty($this->subDir) ? str_replace('/', '.', Str::lower($this->subDir)) . '.' : '';
-        $slug = $subDirDot . Str::kebab($this->feature);
+        $viewSubDir = ! empty($this->subDir) ? Str::lower($this->subDir).'/' : '';
+
+        $subDirDot = ! empty($this->subDir) ? str_replace('/', '.', Str::lower($this->subDir)).'.' : '';
+        $slug = $subDirDot.Str::kebab($this->feature);
         $title = Str::headline($this->feature);
 
         // Directories already created by makeDirectories
 
         // 1. Index View
         $indexPath = resource_path("views/pages/{$viewSubDir}{$viewFolder}/index.blade.php");
-        if (!$this->files->exists($indexPath)) {
+        if (! $this->files->exists($indexPath)) {
             $this->files->put($indexPath, $this->getIndexTemplate($title, $slug));
         }
 
         // 2. Create View
         $createPath = resource_path("views/pages/{$viewSubDir}{$viewFolder}/create.blade.php");
-        if (!$this->files->exists($createPath)) {
+        if (! $this->files->exists($createPath)) {
             $this->files->put($createPath, $this->getCreateTemplate($title, $slug));
         }
 
         // 3. Edit View
         $editPath = resource_path("views/pages/{$viewSubDir}{$viewFolder}/edit.blade.php");
-        if (!$this->files->exists($editPath)) {
+        if (! $this->files->exists($editPath)) {
             $this->files->put($editPath, $this->getEditTemplate($title, $slug));
         }
 
         // 4. Show View
         $showPath = resource_path("views/pages/{$viewSubDir}{$viewFolder}/show.blade.php");
-        if (!$this->files->exists($showPath)) {
+        if (! $this->files->exists($showPath)) {
             $this->files->put($showPath, $this->getShowTemplate($title, $slug));
         }
     }
@@ -366,6 +384,7 @@ PHP);
         </div>
         <div class="table-responsive">
             <table class="table table-hover">
+                {{-- TODO: stub assumes a single 'name' column. Replace the columns below with this feature's real fields. --}}
                 <thead>
                     <tr>
                         <th style="width: 50px">#</th>
@@ -431,6 +450,8 @@ PHP);
                     $.ajax({
                         url: url,
                         method: 'DELETE',
+                        dataType: 'json',
+                        headers: { 'Accept': 'application/json' },
                         data: { _token: '{{ csrf_token() }}' },
                         success: function(response) {
                             window.AlertHandler.handle(response);
@@ -468,6 +489,7 @@ BLADE;
                 <div class="card-body">
                     <form action="{{ route('{$slug}.store') }}" method="POST">
                         @csrf
+                        {{-- TODO: stub assumes a single 'name' field. Add/replace fields to match this feature's columns and {$this->feature}Request rules. --}}
                         <div class="mb-3">
                             <label class="form-label" for="name">Nama {$title}</label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
@@ -513,6 +535,7 @@ BLADE;
                     <form action="{{ route('{$slug}.update', \$data->id) }}" method="POST">
                         @csrf
                         @method('PUT')
+                        {{-- TODO: stub assumes a single 'name' field. Add/replace fields to match this feature's columns and {$this->feature}Request rules. --}}
                         <div class="mb-3">
                             <label class="form-label" for="name">Nama {$title}</label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', \$data->name) }}" required>
@@ -585,16 +608,87 @@ BLADE;
 
     /**
      * ===============================
-     * AUTO BINDING HINT
+     * AUTO-WIRE REPOSITORY BINDING
      * ===============================
      */
-    protected function showBindingHint(): void
+    protected function registerBinding(): void
     {
-        $this->newLine();
-        $this->info("📌 Tambahkan binding di AppServiceProvider::register():");
-        $this->line("   \$this->app->bind(");
-        $this->line("       \\App\\Interfaces\\Repositories{$this->namespaceSuffix}\\{$this->feature}RepositoryInterface::class,");
-        $this->line("       \\App\\Repositories{$this->namespaceSuffix}\\{$this->feature}Repository::class");
-        $this->line("   );");
+        $providerPath = app_path('Providers/AppServiceProvider.php');
+        $interfaceFqcn = "\\App\\Interfaces\\Repositories{$this->namespaceSuffix}\\{$this->feature}RepositoryInterface::class";
+        $repositoryFqcn = "\\App\\Repositories{$this->namespaceSuffix}\\{$this->feature}Repository::class";
+
+        if (! $this->files->exists($providerPath)) {
+            $this->warn('⚠️  AppServiceProvider not found — add the binding manually.');
+
+            return;
+        }
+
+        $contents = $this->files->get($providerPath);
+
+        if (str_contains($contents, "{$this->feature}RepositoryInterface::class") && str_contains($contents, $repositoryFqcn)) {
+            $this->line("ℹ️  Binding for {$this->feature}RepositoryInterface already present — skipped.");
+
+            return;
+        }
+
+        $binding = "        \$this->app->bind(\n            {$interfaceFqcn},\n            {$repositoryFqcn}\n        );\n";
+
+        // Insert at the top of register()'s body
+        $updated = preg_replace(
+            '/(public function register\(\): void\s*\{\s*\n)/',
+            "$1{$binding}",
+            $contents,
+            1
+        );
+
+        if ($updated === null || $updated === $contents) {
+            $this->warn('⚠️  Could not auto-insert binding — add it manually in AppServiceProvider::register().');
+
+            return;
+        }
+
+        $this->files->put($providerPath, $updated);
+        $this->info('✅ Repository binding registered in AppServiceProvider.');
+    }
+
+    /**
+     * ===============================
+     * AUTO-WIRE RESOURCE ROUTE
+     * ===============================
+     */
+    protected function registerRoute(): void
+    {
+        $routesPath = base_path('routes/web.php');
+        $controllerFqcn = "\\App\\Http\\Controllers{$this->namespaceSuffix}\\{$this->feature}Controller::class";
+
+        if (! $this->files->exists($routesPath)) {
+            $this->warn('⚠️  routes/web.php not found — add the route manually.');
+
+            return;
+        }
+
+        $contents = $this->files->get($routesPath);
+
+        if (str_contains($contents, "Route::resource('{$this->slug}'")) {
+            $this->line("ℹ️  Route for '{$this->slug}' already present — skipped.");
+
+            return;
+        }
+
+        $route = "    Route::resource('{$this->slug}', {$controllerFqcn})->middleware('check.permission:{$this->slug}.index');\n";
+
+        // Insert before the last '});' (closing brace of the auth route group)
+        $pos = strrpos($contents, '});');
+
+        if ($pos === false) {
+            // Fallback: append at end of file
+            $updated = rtrim($contents, "\n")."\n\n{$route}";
+        } else {
+            $updated = substr($contents, 0, $pos).$route.substr($contents, $pos);
+        }
+
+        $this->files->put($routesPath, $updated);
+        $this->info("✅ Resource route registered in routes/web.php (protected by check.permission:{$this->slug}.index).");
+        $this->line("   Remember to seed a 'menus' row with slug '{$this->slug}' and grant permissions.");
     }
 }

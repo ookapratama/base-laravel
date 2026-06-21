@@ -46,12 +46,12 @@ class AppServiceProvider extends ServiceProvider
         \Illuminate\Support\Facades\Gate::define('access', function ($user, $slug, $action) {
             return $user->hasPermission($slug, $action);
         });
-        
+
         // Use Bootstrap 5 for pagination
         \Illuminate\Pagination\Paginator::useBootstrapFive();
 
         // Create Helper alias for ViewConfigHelper
-        if (!class_exists('Helper')) {
+        if (! class_exists('Helper')) {
             class_alias(ViewConfigHelper::class, 'Helper');
         }
 
@@ -63,32 +63,21 @@ class AppServiceProvider extends ServiceProvider
         // Share menu data with all views
         View::composer('*', function ($view) {
             $menus = collect();
-            
-            if (auth()->check()) {
-                $role = auth()->user()->role;
-            } else {
-                // Fallback to Super Admin menus for Guest/Demo if no auth
-                // Or just the first role found
-                $role = \App\Models\Role::where('slug', 'super-admin')->first();
-            }
+
+            // Only authenticated users get a sidebar; guests see none.
+            $role = auth()->check() ? auth()->user()->role : null;
 
             if ($role) {
                 $menus = $role->menus()
                     ->whereNull('parent_id')
                     ->wherePivot('can_read', true)
-                    ->with(['children' => function($q) use ($role) {
-                        $q->whereHas('roles', function($rq) use ($role) {
+                    ->with(['children' => function ($q) use ($role) {
+                        $q->whereHas('roles', function ($rq) use ($role) {
                             $rq->where('roles.id', $role->id)->where('can_read', true);
                         })->orderBy('order_no');
                     }])
                     ->orderBy('order_no')
                     ->get();
-            }
-
-            // Fallback to JSON if no menus found in DB
-            if ($menus->isEmpty()) {
-                $verticalMenuJson = file_get_contents(resource_path('menu/verticalMenu.json'));
-                $menus = json_decode($verticalMenuJson)->menu ?? [];
             }
 
             $view->with('menuData', [$menus]);
@@ -97,7 +86,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Share template variables config from Database or defaults
         $settingService = app(\App\Services\SettingService::class);
-        
+
         config([
             'variables' => [
                 'templateName' => $settingService->get('app_name', 'Base Laravel'),

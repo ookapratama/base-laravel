@@ -3,21 +3,7 @@
 @section('title', 'Edit User')
 
 @section('page-script')
-   <script>
-      document.addEventListener('DOMContentLoaded', function(e) {
-         (function() {
-            let accountUserImage = document.getElementById('uploadedAvatar');
-            const fileInput = document.querySelector('.account-file-input');
-            if (accountUserImage && fileInput) {
-               fileInput.onchange = () => {
-                  if (fileInput.files[0]) {
-                     accountUserImage.src = window.URL.createObjectURL(fileInput.files[0]);
-                  }
-               };
-            }
-         })();
-      });
-   </script>
+   @include('pages.user._avatar-script')
 @endsection
 
 @section('content')
@@ -42,19 +28,7 @@
                @csrf
                @method('PUT')
 
-               <div class="d-flex align-items-start align-items-sm-center gap-4 mb-4">
-                  <img src="{{ $user->avatar ? asset('storage/' . $user->avatar) : asset('assets/img/avatars/1.png') }}"
-                     alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
-                  <div class="button-wrapper">
-                     <label for="upload" class="btn btn-primary me-2 mb-2" tabindex="0">
-                        <span class="d-none d-sm-block">Upload foto</span>
-                        <i class="ri-upload-2-line d-block d-sm-none"></i>
-                        <input type="file" id="upload" name="avatar" class="account-file-input" hidden
-                           accept="image/png, image/jpeg" />
-                     </label>
-                     <p class="text-muted mb-0 small">JPG, GIF atau PNG. Maks 2MB</p>
-                  </div>
-               </div>
+               @include('pages.user._avatar-field')
 
                <div class="row">
                   <div class="col-md-6 mb-4">

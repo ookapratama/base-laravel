@@ -50,7 +50,12 @@ class AlertHandler {
      * @param {Object} response - The response object (axios response or plain object)
      */
     handle(response) {
-        const data = response.data || response;
+        const data = response && (response.data || response);
+
+        if (!data || typeof data !== "object") {
+            this.showError("Terjadi kesalahan. Silakan coba lagi.");
+            return;
+        }
 
         if (data.success) {
             this.showSuccess(data.message);

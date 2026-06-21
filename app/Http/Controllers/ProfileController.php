@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\FileUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
-use App\Services\FileUploadService;
 
 class ProfileController extends Controller
 {
@@ -19,6 +19,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = auth()->user();
+
         return view('pages.profile.index', compact('user'));
     }
 
@@ -28,14 +29,14 @@ class ProfileController extends Controller
     public function update(\App\Http\Requests\ProfileRequest $request)
     {
         $user = auth()->user();
-        
+
         $data = $request->validated();
 
         if ($request->hasFile('avatar')) {
-            $media = $this->fileUploadService->upload($request->file('avatar'), 'avatars', options: [
+            $media = $this->fileUploadService->replace($user->avatar, $request->file('avatar'), 'avatars', options: [
                 'width' => 300,
                 'height' => 300,
-                'crop' => true
+                'crop' => true,
             ]);
             $data['avatar'] = $media->path;
         }

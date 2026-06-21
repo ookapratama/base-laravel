@@ -2,6 +2,10 @@
 
 @section('title', 'Tambah User')
 
+@section('page-script')
+  @include('pages.user._avatar-script')
+@endsection
+
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
   {{-- Header --}}
@@ -20,8 +24,10 @@
       <h5 class="card-title mb-0">Form Tambah User</h5>
     </div>
     <div class="card-body">
-      <form action="{{ route('user.store') }}" method="POST">
+      <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
+
+        @include('pages.user._avatar-field')
 
         <div class="row">
           <div class="col-md-6 mb-4">

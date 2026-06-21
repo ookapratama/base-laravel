@@ -158,6 +158,10 @@
                   $.ajax({
                      url: url,
                      method: 'DELETE',
+                     dataType: 'json',
+                     headers: {
+                        'Accept': 'application/json'
+                     },
                      data: {
                         _token: '{{ csrf_token() }}'
                      },
